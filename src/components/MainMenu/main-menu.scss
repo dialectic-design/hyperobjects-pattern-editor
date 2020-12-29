@@ -1,0 +1,65 @@
+.main-menu {
+    &.ui.menu {
+        margin: 0px;
+        border-radius: 0px;
+        border-bottom: 1px solid rgba(200,200,200, 0.3);
+        height: 41px;
+    }
+    
+    .ui.dropdown {
+        margin-top: -5px;
+        padding: 3px;
+        padding-left: 6px;
+        position: relative;
+        top: 2px;
+        min-width: 200px;
+        min-height: 0px;
+        background: transparent;
+        z-index: 1000 !important;
+        .dropdown.icon {
+            padding: 3px;
+        }
+
+        input.search {
+            padding-top: 3px !important;
+        }
+        .menu {
+            margin-top: 5px;
+            max-height: 80vh;
+            z-index: 1000 !important;
+        }
+    }
+    .right.item {
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
+    button.ui.button.tiny {
+        font-size: .85714286rem !important;
+        position: relative;
+        top: 0px;
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+        border: 1px solid rgba(255,255,255,0.6) !important;
+        box-shadow: none !important;
+        &:hover {
+            background :rgba(255,255,255,0.1) !important;
+        }
+    }
+    button.ui.button.tiny {
+        top: 0px;
+    }
+    .account-name {
+        width: 150px;
+        white-space: nowrap;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+    }
+    .pattern-storage-state {
+        min-width: 150px;
+        p {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+}

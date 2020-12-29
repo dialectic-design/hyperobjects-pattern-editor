@@ -1,0 +1,31 @@
+.elements-list {
+    .inputs {
+        .ui.list {
+            .item {
+                position: relative;
+                max-width: 250px;
+                white-space: nowrap;
+                overflow: hidden !important;
+                text-overflow: ellipsis;
+                border: 1px solid rgba(100,100,100,0.05);
+                margin-top: 3px;
+                border-radius: 8px;
+                p {
+                    margin: 0px;
+                    padding: 0px;
+                    padding-bottom: 3px;
+                    padding-left: 6px;
+                }
+                &:hover {
+                    background: rgba(240,240,240,0.2);
+                }
+                button.ui.button {
+                    position: absolute;
+                    top: 0px;
+                    right: 1px;
+                    padding: 7px;
+                }
+            }
+        }
+    }
+}
