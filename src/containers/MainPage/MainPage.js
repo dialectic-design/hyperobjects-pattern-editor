@@ -1,16 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import PatternEditor from 'components/PatternEditor'
 import RefreshTree from 'components/RefreshTree'
 import {
     Container,
     List,
-    Card
+    Card,
+    Button,
+    Modal
 } from 'semantic-ui-react'
 import { UserContext, LoginForm } from '@dialectic-design/hyperobjects-user-context'
+import { NewEntityForm } from '@dialectic-design/hyperobjects-entity-context'
 import { PatternContext } from 'App'
 import './main-page.scss'
 
 const MainPage = ({ uiState }) => {
+    const [modal, setModal] = useState(false)
     const user = useContext(UserContext)
     const patternContext = useContext(PatternContext)
     if(user.authenticated === false) {
@@ -27,9 +31,19 @@ const MainPage = ({ uiState }) => {
     }
     return (
         <div className='main-page'>
+            <Modal
+                open={modal === 'new-pattern'}
+                closeIcon
+                size="mini"
+                onClose={() => setModal(false)}
+                >
+                    <Modal.Content>
+                        <NewEntityForm context={PatternContext} />
+                    </Modal.Content>
+            </Modal>
             {uiState.selectedPattern ? (
                 <React.Fragment>
-                    <RefreshTree key={uiState.selectedPatternId}>
+                    <RefreshTree refreshKey={uiState.selectedPatternId}>
                     <PatternEditor
                         pattern={uiState.selectedPattern}
                         onChange={(updatedPattern) => {
@@ -40,8 +54,11 @@ const MainPage = ({ uiState }) => {
                 </React.Fragment>
             ) : (
                 <Container style={{paddingTop: 100, textAlign: 'center'}}>
+                    <div className='create-new'>
+                    <Button size='small' onClick={() => setModal('new-pattern')}>Create new pattern</Button>
+                    </div>
                     <p>Select a pattern:</p>
-                    <List>
+                    <List className='main-page-pattern-list'>
                     {patternContext.list.map(pattern => {
                         return (
                             <List.Item key={pattern._id}>
@@ -58,6 +75,9 @@ const MainPage = ({ uiState }) => {
                         )
                     })}
                     </List>
+                    
+                    
+                    
                 </Container>
             )}
         </div>

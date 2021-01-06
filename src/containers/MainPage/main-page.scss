@@ -1,4 +1,7 @@
 .main-page {
+    .ui.list.main-page-pattern-list {
+        padding-bottom: 100px;
+    }
     .pattern-card {
         user-select: none;
         cursor: pointer;
@@ -6,6 +9,17 @@
         margin-right: auto;
         &:hover {
             background: rgba(0,0,0,0.1);
+        }
+    }
+    .create-new {
+        width: 290px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid rgb(220,220,220);
+        button.ui.button {
+            width: 100%;
         }
     }
 }

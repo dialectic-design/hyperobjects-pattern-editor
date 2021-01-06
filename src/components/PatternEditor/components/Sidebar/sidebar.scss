@@ -5,13 +5,20 @@
     left: 0px;
     pointer-events: none;
     z-index: 100;
-
+    h1 {
+        pointer-events: initial;
+        max-width: 300px;
+    }
     h3 {
         margin: 0px;
         padding: 0px;
+        margin-top: 20px;
+        margin-bottom: 2px;
+        pointer-events: none;
     }
     .sidebar-header {
         position: relative;
+        width: 310px;
         h1 {
             margin: 0px;
             padding: 0px;
@@ -19,10 +26,11 @@
         button.ui.button {
             position: absolute;
             top: 0px;
-            right: 30px;
+            right: 0px;
             padding-left: 20px;
             padding-right: 20px;
-            background: rgba(220,220,220,0.2);
+            background: rgba(220,220,220, 0);
+            pointer-events: initial;
             border: 0px solid transparent;
             box-shadow: none;
         }
@@ -35,6 +43,10 @@
     .tab-selection {
         margin-bottom: 5px;
         margin-top: 5px;
+        width: 295px;
+        button.ui.button {
+            pointer-events: initial;
+        }
     }
     .show-hide-tab.button {
         position: absolute;
@@ -50,7 +62,7 @@
     .slide-panel {
         position: relative;
         left: 0px;
-        max-width: 400px;
+        max-width: 85vw;
         overflow: hidden;
         height: calc(100vh - 80px);
         transition: left 0.5s;
@@ -73,14 +85,18 @@
             left: -420px;
         }
         .scroll-container {
-            width: 420px;
+            width: 90vw;
             max-height: calc( 100vh - 80px );
             padding-top: 20px;
-            padding-bottom: 100px;
+            padding-bottom: 200px;
             overflow-y: scroll;
-            pointer-events: auto;
+            pointer-events: none;
             .elements-list {
-                pointer-events: initial;
+                pointer-events: none;
+                .ui.list {
+                    max-width: 250px;
+                    margin: 0px;
+                }
             }
             .elements-simulation-list {
                 pointer-events: initial;

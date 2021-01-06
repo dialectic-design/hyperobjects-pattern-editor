@@ -20,8 +20,10 @@ function straightLineProcedureGenerator(geometry, p_index, length, direction) {
     }
 }
 
-export default {
+var procedure = {
     generator: straightLineProcedureGenerator,
     json: straightLineJsonDescription,
     type: names.STRAIGHT_LINE
 }
+
+export default procedure

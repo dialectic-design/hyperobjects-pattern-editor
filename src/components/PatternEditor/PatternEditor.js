@@ -1,12 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react'
 
 import './pattern-editor.scss'
-import _ from 'lodash'
-import {
-    Loader,
-    Message,
-    Icon
-} from 'semantic-ui-react'
 import generateActions from './actions'
 import {
     PATTERN_TAB,
@@ -26,15 +20,23 @@ const PatternEditor = ({
     pattern,
     onChange
 }) => {
-    var [modelData, setModelData] = useState(false)
-    var [modelUpdateCounter, setModelUpdateCounter] = useState(0)
-    var [refreshViews, setRefreshViews] = useState(false)
-    var [selectedTab, setSelectedTab] = useState(PATTERN_TAB)
-    function updateModel(newModelData, refresh = false) {
+    const [modelData, setModelData] = useState(false)
+    const [modelUpdateCounter, setModelUpdateCounter] = useState(0)
+    const [refreshViews, setRefreshViews] = useState(false)
+    const [selectedTab, setSelectedTab] = useState(PATTERN_TAB)
+    const [selectedElement, setSelectedElement] = useState(false)
+    const [hoveredElement, setHoveredElement] = useState(false)
+    const [frameFromParameters, setFrameFromParameters] = useState(false)
+    const [showSettings, setShowSettings] = useState(false)
+
+    function updateModel(newModelData, refresh = false, fromParams = false) {
         setModelData(newModelData)
         setModelUpdateCounter(modelUpdateCounter + 1)
         if(refresh) {
             setRefreshViews(true)
+        }
+        if(fromParams) {
+            setFrameFromParameters(true)
         }
     }
     var actions = generateActions(modelData, updateModel, pattern, onChange)
@@ -43,14 +45,19 @@ const PatternEditor = ({
         if(modelData === false) {
             actions.parseFromJson(pattern.patternJson)
         }
-    }, [modelData, setModelData, pattern])
+    }, [modelData, setModelData, pattern, actions])
     useEffect(() => {
         if(refreshViews) {
             setTimeout(() => {
                 setRefreshViews(false)
             }, 10)
         }
-    }, [refreshViews, setRefreshViews])
+        if(frameFromParameters) {
+            setTimeout(() => {
+                setFrameFromParameters(false)
+            }, 1)
+        }
+    }, [refreshViews, setRefreshViews, frameFromParameters,  setFrameFromParameters, actions])
     
     if(modelData === false) {
         return (
@@ -59,14 +66,23 @@ const PatternEditor = ({
     }
     const editorUIState = {
         selectedTab,
-        setSelectedTab
+        setSelectedTab,
+        showSettings,
+        setShowSettings
     }
     const contextValue = {
         refreshViews,
         modelUpdateCounter,
         pattern,
         modelData,
-        actions
+        actions,
+        selectedElement,
+        setSelectedElement,
+        hoveredElement,
+        setHoveredElement,
+        frameFromParameters,
+        editorUIState,
+        setRefreshViews
     }
     return (
         <EditorContext.Provider value={contextValue}>

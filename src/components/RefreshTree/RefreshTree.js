@@ -5,20 +5,20 @@ import {
 
 
 const RefreshTree = ({
-    key,
+    refreshKey,
     children
 }) => {
     const [currentKey, setCurrentKey] = useState(false)
     const [refreshing, setRefreshing] = useState(false)
     useEffect(() => {
-        if(key !== currentKey) {
+        if(refreshKey !== currentKey) {
             setRefreshing(true)
-            setCurrentKey(key)
+            setCurrentKey(refreshKey)
             setTimeout(() => {
                 setRefreshing(false)
             }, 1)
         }
-    })
+    }, [refreshKey, currentKey] )
     if(refreshing) {
         return (
             <Container style={{paddingTop: 100, textAlign: 'center', opacity: 0.1}}>
@@ -32,6 +32,10 @@ const RefreshTree = ({
             </React.Fragment>
         )
     }
+}
+
+RefreshTree.defaultProps = {
+    refreshKey: "set key"
 }
 
 export default RefreshTree

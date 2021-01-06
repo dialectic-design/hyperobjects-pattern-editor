@@ -1,6 +1,7 @@
 import parsePatternFromJsonString from '../utils/parsePatternFromJsonString'
 import generateInputActions from './inputActions'
 import generateGeometryActions from './geometryActions'
+import generateModelActions from './modelActions'
 import dayjs from 'dayjs'
 
 let latestVersionStored = dayjs().clone().subtract(5, 'seconds')
@@ -9,7 +10,7 @@ function generateActions(modelData, setModelData, pattern, onChange) {
     function storeModelUpdate(newModelData) {
         const newJsonString = JSON.stringify(newModelData)
         var storeVersion = false
-        if (dayjs().diff(latestVersionStored, 'second') > 10) {
+        if (dayjs().diff(latestVersionStored, 'second') > 120) {
             storeVersion = true
             latestVersionStored = dayjs()
         }
@@ -23,9 +24,11 @@ function generateActions(modelData, setModelData, pattern, onChange) {
     }
     var inputActions = generateInputActions(modelData, setModelData, pattern, storeModelUpdate)
     var geometryActions = generateGeometryActions(modelData, setModelData, pattern, storeModelUpdate)
+    var modelActions = generateModelActions(modelData, setModelData, pattern, storeModelUpdate)
     var actions = {
         ...inputActions,
         ...geometryActions,
+        ...modelActions,
         parseFromJson: (jsonString) => {
             setModelData(parsePatternFromJsonString(jsonString))
         },

@@ -1,0 +1,27 @@
+.elements-list {
+    .new-element-pop-up {
+        width: 310px;
+        padding-top: 4px;
+        .ui.input {
+            > input {
+                width: 181px !important;
+                pointer-events: initial;
+            }
+        }
+        button.ui.button {
+            margin-left: 5px;
+            width: 110px;
+        }
+    }
+    .ui.message {
+        width: 297px;
+        padding: 3px;
+        padding-left: 6px;
+    }
+    button.ui.button {
+        pointer-events: initial;
+        &.preview {
+            width: 297px;
+        }
+    }
+}

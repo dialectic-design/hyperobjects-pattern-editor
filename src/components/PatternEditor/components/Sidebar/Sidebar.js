@@ -15,9 +15,8 @@ import "./sidebar.scss"
 const SideBar = ({
     editorUIState
 }) => {
-    const { pattern,  modelData, actions } = useContext(EditorContext)
+    const { pattern } = useContext(EditorContext)
     const [showSidebar, setShowSidebar] = useState(true)
-    const [showModelSettings, setShowModelSettings] = useState(false)
     let slidePanelClass = 'slide-panel'
     if(showSidebar === false) {
         slidePanelClass += ' hidden'
@@ -38,7 +37,7 @@ const SideBar = ({
                             icon='setting'
                             floated='right'
                             size="mini"
-                            onClick={() => setShowModelSettings(!showModelSettings)}
+                            onClick={() => editorUIState.setShowSettings(!editorUIState.showSettings)}
                             />
                         <p className='pattern-id'>Pattern id: {pattern._id}</p>
                     </div>

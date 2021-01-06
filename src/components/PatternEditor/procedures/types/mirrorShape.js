@@ -43,8 +43,10 @@ function mirrorShape(jsonDescription, name) {
     }
 }
 
-export default {
+var procedure = {
     generator: mirrorShape,
     json: mirrorShapeJsonDescription,
     type: names.MIRROR_SHAPE
 }
+
+export default procedure

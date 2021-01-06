@@ -21,7 +21,7 @@ const Inputs = () => {
                     <List>
                     {inputs.map(input => {
                         return (
-                            <List.Item>
+                            <List.Item key={input}>
                                 <p key={input}>{input}</p>
                                 <Button
                                     icon="trash"
@@ -41,9 +41,9 @@ const Inputs = () => {
                 <p><i>No inputs set yet.</i></p>
             )}
             {showNewInputPopUp ? (
-                <div className='new-input-pop-up'>
+                <div className='new-element-pop-up'>
                     <Input size='mini' value={newInputName} onChange={(e) => setNewInputName(e.target.value)} />
-                    <Button size='mini' style={{marginLeft: 5}} onClick={() => {
+                    <Button size='mini' onClick={() => {
                         // patternActions.addInput(newInputName, [0, 1])
                         console.log(actions)
                         actions.addInput(newInputName, [0, 1])
@@ -51,7 +51,7 @@ const Inputs = () => {
                     }}>Add input</Button>
                 </div>
             ) : (
-                <Button size='mini' onClick={() => setShowNewInputPopUp(!showNewInputPopUp)}>Add new input</Button>
+                <Button size='mini' className='preview' onClick={() => setShowNewInputPopUp(!showNewInputPopUp)}>Add input</Button>
             )}
         </div>
     )

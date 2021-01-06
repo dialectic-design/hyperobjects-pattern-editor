@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, createContext, useEffect } from 'react';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -26,6 +26,8 @@ export const patternStore = createStore('pattern')
 const PatternProvider = patternStore.provider
 export const PatternContext = patternStore.context
 
+export const UIContext = createContext()
+
 const App = () => {
 	return (
 		<UserProvider>
@@ -46,14 +48,23 @@ const AppWithUser = () => {
 const AppWithUserAndPattern = () => {
 	const patternContext = useContext(PatternContext)
 	const [selectedPatternId, setSelectedPatternId] = useState(false)
+	const [refreshSelectedPattern, setRefreshSelectedPattern] = useState(false)
 	const selectedPattern = _.get(patternContext, `dict.${selectedPatternId}`, false)
-
+	useEffect(() => {
+		if(refreshSelectedPattern) {
+			setTimeout(() => {
+				setRefreshSelectedPattern(false)
+			}, 10)
+		}
+	}, [refreshSelectedPattern, setRefreshSelectedPattern])
 	const uiState = {
-		selectedPatternId,
+		selectedPatternId: refreshSelectedPattern ? false : selectedPatternId,
 		setSelectedPatternId,
-		selectedPattern
+		selectedPattern,
+		setRefreshSelectedPattern
 	}
 	return (
+		<UIContext.Provider value={uiState}>
 		<Router>
 			<div className='app'>
 				<MainMenu uiState={uiState} />
@@ -72,6 +83,7 @@ const AppWithUserAndPattern = () => {
 				</div>
 			</div>
 		</Router>
+		</UIContext.Provider>
 	)
 }
 

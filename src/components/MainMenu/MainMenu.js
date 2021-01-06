@@ -3,9 +3,6 @@ import {
     UserContext,
     LoginForm
 } from '@dialectic-design/hyperobjects-user-context'
-import {
-    NewEntityForm
-} from '@dialectic-design/hyperobjects-entity-context'
 import { useContext } from 'react'
 import {
     Menu,
@@ -22,7 +19,6 @@ import {
 } from 'react-router-dom'
 import './main-menu.scss'
 import { PatternContext } from 'App'
-import _ from 'lodash'
 import $ from 'jquery'
 
 const MainMenu = ({ uiState }) => {
@@ -70,13 +66,15 @@ const MainMenu = ({ uiState }) => {
                     </Link>
                     {user.authenticated === false ? (
                         <Menu.Menu position='right'>
-                            <Link to='/create-account'>
+                            
                             <Menu.Item position='right'>
+                                <Link to='/create-account'>
                                     <Button size="tiny" basic>
                                         Create account
                                     </Button>
+                                </Link>
                             </Menu.Item>
-                            </Link>
+                            
                             <Menu.Item position="right">
                                 <Button size='tiny' basic
                                     onClick={() => {

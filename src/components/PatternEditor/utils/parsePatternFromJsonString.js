@@ -1,4 +1,12 @@
+import { Model } from '@dp50mm/hyperobjects-language'
+
 function parsePatternFromJsonString(jsonString) {
+    if(jsonString === 'initialized') {
+        var newModelTemplate = new Model().extractModel()
+        console.log(newModelTemplate)
+        newModelTemplate._procedures = []
+        return newModelTemplate
+    }
     var patternJsonString = jsonString.slice()
     patternJsonString = patternJsonString.replace(/(\r\n|\n|\r)/gm, "").trim()
     patternJsonString = patternJsonString.replace(/\\/g, '')

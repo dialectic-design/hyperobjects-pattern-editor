@@ -1,4 +1,53 @@
 .pattern-editor {
     user-select: none;
     position: relative;
+
+    .tools-panel {
+        width: 40px;
+        position: absolute;
+        right: 15px;
+        bottom: 10px;
+        padding: 5px;
+        z-index: 100;
+        button.ui.button {
+            pointer-events: initial;
+            position: relative;
+            width: 33px;
+            margin-bottom: 6px;
+            i {
+                position: relative;
+                left: -5px;
+            }
+            .tooltip {
+                position: absolute;
+                width: 200px;
+                text-align: right;
+                right: calc( 100% + 0px );
+                top: 5px;
+                opacity: 0;
+                transition: right 0.1s, opacity 0.1s;
+                pointer-events: none;
+            }
+            &:hover {
+                .tooltip {
+                    right: calc( 100% + 5px );
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    .message-pop-up {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        right: 0px;
+        padding: 20px;
+        pointer-events: none;
+        .ui.message {
+            width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
 }

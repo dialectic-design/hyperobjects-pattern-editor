@@ -1,0 +1,17 @@
+.mouse-icon-container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    pointer-events: none;
+}
+
+.mouse-tool-icon {
+    position: absolute;
+    user-select: none;
+    pointer-events: none;
+    padding-left: 15px;
+    opacity: 0.5;
+    transition: left 0.1s, top 0.1s;
+}

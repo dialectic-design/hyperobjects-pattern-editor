@@ -7,7 +7,7 @@ const BUTTON_MODIFICATION = 'button'
 const BUTTON_HOLE_MODIFICATION = 'button_hole'
 const FOLD_MODIFICATION = 'fold'
 
-const modificationTypes = {
+export const modificationTypes = {
     button: BUTTON_MODIFICATION,
     buttonHole: BUTTON_HOLE_MODIFICATION,
     fold: FOLD_MODIFICATION
@@ -110,8 +110,10 @@ function interpolationLine(jsonDescription, name) {
     }
 }
 
-export default {
+var procedure = {
     generator: interpolationLine,
     json: interpolationLineJsonDescription,
     type: names.INTERPOLATION_LINE
 }
+
+export default procedure

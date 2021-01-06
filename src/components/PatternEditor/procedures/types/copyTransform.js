@@ -24,8 +24,10 @@ function copyTransform(jsonDescription) {
     }
 }
 
-export default {
+var procedure = {
     generator: copyTransform,
     json: copyTransformJsonDescription,
     type: names.COPY_TRANSFORM
 }
+
+export default procedure
