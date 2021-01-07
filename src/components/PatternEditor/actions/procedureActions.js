@@ -1,11 +1,11 @@
 function generateProcedureActions(modelData, setModelData, pattern, storeModelUpdate) {
     var actions = {
-        updateProcedure: (newProcedure) => {
+        updateProcedure: (updatedProcedure) => {
             const newModelData = {
                 ...modelData,
                 _procedures: modelData._procedures.map(procedure => {
-                    if(procedure.name === newProcedure.name) {
-                        return newProcedure
+                    if(procedure.name === updatedProcedure.name) {
+                        return updatedProcedure
                     }
                     return procedure
                 })
@@ -13,6 +13,22 @@ function generateProcedureActions(modelData, setModelData, pattern, storeModelUp
             setModelData(newModelData, false, true)
             storeModelUpdate(newModelData)
 
+        },
+        addProcedure: (newProcedure) => {
+            const newModelData = {
+                ...modelData,
+                _procedures: modelData._procedures.concat(newProcedure)
+            }
+            setModelData(newModelData, false, true)
+            storeModelUpdate(newModelData)
+        },
+        deleteProcedure: (procedure) => {
+            const newModelData = {
+                ...modelData,
+                _procedures: modelData._procedures.filter(p => p.name !== procedure.name)
+            }
+            setModelData(newModelData, false, true)
+            storeModelUpdate(newModelData)
         }
     }
     return actions 

@@ -28,4 +28,25 @@
             width: 297px;
         }
     }
+    .add-procedure-form {
+        margin-top: 10px;
+        h4 {
+            margin-bottom: 5px;
+        }
+        .add-procedure-module {
+            pointer-events: initial;
+            .ui.form {
+                .field {
+                    margin-bottom: 5px;
+                }
+            }
+            input {
+                pointer-events: initial;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    }
+    
 }

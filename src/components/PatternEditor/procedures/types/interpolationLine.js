@@ -40,6 +40,9 @@ function interpolationLine(jsonDescription, name) {
     return (self) => {
         let returnGeometries = []
         let prevPoint = false
+        if(jsonDescription.geometries.length === 0) {
+            return []
+        }
         let path = new Path(jsonDescription.geometries.map(geometry => {
             const interpolateValue = _.get(self.inputs[jsonDescription.input], 'value', 0)
             let p = new Point(self.geometries[geometry.path].interpolate(interpolateValue))

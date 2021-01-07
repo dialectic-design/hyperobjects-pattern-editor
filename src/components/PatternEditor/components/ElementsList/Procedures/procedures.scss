@@ -1,4 +1,12 @@
 .procedures-list {
+    .ui.selection {
+        pointer-events: initial;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    .checkbox {
+        pointer-events: initial;
+    }
     .procedure {
         margin-bottom: 5px;
         padding: 5px;
@@ -6,6 +14,11 @@
         border-radius: 5px;
         position: relative;
         width: 305px;
+        .delete-button {
+            position: relative;
+            margin-top: 10px;
+            background: transparent;
+        }
         .type-label {
             text-align: right;
             position: absolute;

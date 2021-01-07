@@ -18,6 +18,12 @@ function mirrorShapeJsonDescription() {
 }
 
 function mirrorShape(jsonDescription, name) {
+    if(name === _.get(jsonDescription, 'source.key', false)) {
+        return () => {
+            // console.log('procedure: ', name, 'cant mirror itself!')
+            return []
+        }
+    }
     return (self) => {
         if(!_.has(self.procedures, jsonDescription.source.key)) {
             console.log('set source key for procedure: ', name)
@@ -26,6 +32,9 @@ function mirrorShape(jsonDescription, name) {
         let functionToMirror = self.procedures[jsonDescription.source.key](self)
         var path = false
         if(_.isArray(functionToMirror)) {
+            if(functionToMirror.length === 0) {
+                return []
+            }
             path = functionToMirror[0]
         } else {
             path = functionToMirror

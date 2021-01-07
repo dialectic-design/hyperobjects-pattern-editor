@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
 import Procedure from './Procedure'
 import { EditorContext } from 'components/PatternEditor/PatternEditor'
+import AddProcedureForm from './AddProcedureForm'
+
 import './procedures.scss'
 
 const ProceduresList = React.memo(() => {
@@ -16,6 +18,7 @@ const ProceduresList = React.memo(() => {
                         />
                 )
             })}
+            <AddProcedureForm />
         </div>
     )
 })
