@@ -7,7 +7,6 @@ import {
 import { EditorContext } from 'components/PatternEditor/PatternEditor'
 import Geometry from './Geometry'
 import NewGeometryPopUp from './NewGeometryPopUp'
-import './geometries.scss'
 
 export const GeometriesListContext = createContext()
 
@@ -26,7 +25,7 @@ const Geometries = () => {
     }
     return (
         <GeometriesListContext.Provider value={geometriesListUI}>
-        <div className='geometries'>
+        <div className='geometries draggable-list'>
             <h3>Geometries</h3>
             <div>
                 <DragDropContext onDragEnd={(result) => {

@@ -41,11 +41,12 @@ function interpolationLine(jsonDescription, name) {
         let returnGeometries = []
         let prevPoint = false
         let path = new Path(jsonDescription.geometries.map(geometry => {
-            let p = new Point(self.geometries[geometry.path].interpolate(self.inputs[jsonDescription.input].value))
+            const interpolateValue = _.get(self.inputs[jsonDescription.input], 'value', 0)
+            let p = new Point(self.geometries[geometry.path].interpolate(interpolateValue))
             let c1 = _.get(geometry, 'curvePoint1', false)
             let c2 = _.get(geometry, 'curvePoint2', false)
             if(c1 && c2 === false) {
-                let q = self.geometries[c1].interpolate(self.inputs[jsonDescription.input].value)
+                let q = self.geometries[c1].interpolate(interpolateValue)
                 p.q = {x: q.x, y: q.y}
                 returnGeometries.push(new Path([
                     p,
@@ -62,8 +63,8 @@ function interpolationLine(jsonDescription, name) {
                 }
             } else if (c1 && c2) {
                 p.c = [
-                    self.geometries[c1].interpolate(self.inputs[jsonDescription.input].value),
-                    self.geometries[c2].interpolate(self.inputs[jsonDescription.input].value)
+                    self.geometries[c1].interpolate(interpolateValue),
+                    self.geometries[c2].interpolate(interpolateValue)
                 ]
                 returnGeometries.push(new Path([
                     p,
@@ -88,7 +89,6 @@ function interpolationLine(jsonDescription, name) {
             .setShowSegmentLengthLabels(true)
         
         path.showSegmentLengthLabels = true
-        
         if(jsonDescription.showName) {
             returnGeometries.push(new Text(
                 name,

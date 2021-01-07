@@ -49,7 +49,7 @@ const DraggableContent = React.memo(({
         setHoveredElement
     } = useContext(EditorContext)
     const list = useContext(GeometriesListContext)
-    var classname = 'geometry'
+    var classname = 'geometry draggable-list-item'
     if(selectedElement === geometry.key) {
         classname += ' selected'
     }

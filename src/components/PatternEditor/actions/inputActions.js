@@ -9,7 +9,7 @@ function generateInputActions(modelData, setModelData, pattern, storeModelUpdate
                 ...modelData,
                 inputs: inputs
             }
-            setModelData(newModelData, true)
+            setModelData(newModelData, false, true)
         },
         removeInput: (name) => {
             var inputs = modelData.inputs
@@ -18,7 +18,7 @@ function generateInputActions(modelData, setModelData, pattern, storeModelUpdate
                 ...modelData,
                 inputs: inputs
             }
-            setModelData(newModelData, true)
+            setModelData(newModelData, false, true)
         }
     }
     return actions

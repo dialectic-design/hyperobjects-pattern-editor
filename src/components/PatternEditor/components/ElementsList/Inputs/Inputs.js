@@ -44,8 +44,6 @@ const Inputs = () => {
                 <div className='new-element-pop-up'>
                     <Input size='mini' value={newInputName} onChange={(e) => setNewInputName(e.target.value)} />
                     <Button size='mini' onClick={() => {
-                        // patternActions.addInput(newInputName, [0, 1])
-                        console.log(actions)
                         actions.addInput(newInputName, [0, 1])
                         setShowNewInputPopUp(false)
                     }}>Add input</Button>

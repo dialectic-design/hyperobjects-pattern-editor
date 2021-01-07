@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import _ from 'lodash'
 import './mouse-tool-icon.scss'
 import {

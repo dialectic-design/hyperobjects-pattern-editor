@@ -62,9 +62,9 @@
     .slide-panel {
         position: relative;
         left: 0px;
-        max-width: 85vw;
+        max-width: 310px;
         overflow: hidden;
-        height: calc(100vh - 80px);
+        height: calc(100vh - 41px);
         transition: left 0.5s;
         pointer-events: none;
         .model-settings-container {
@@ -85,12 +85,12 @@
             left: -420px;
         }
         .scroll-container {
-            width: 90vw;
-            max-height: calc( 100vh - 80px );
+            width: 330px;
+            max-height: calc( 100vh - 41px );
             padding-top: 20px;
             padding-bottom: 200px;
             overflow-y: scroll;
-            pointer-events: none;
+            pointer-events: initial;
             .elements-list {
                 pointer-events: none;
                 .ui.list {

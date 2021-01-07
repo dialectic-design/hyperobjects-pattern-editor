@@ -57,6 +57,7 @@ const MainMenu = ({ uiState }) => {
                     <LoginForm />
                 </Modal.Content>
             </Modal>
+            
             <Menu className='main-menu'>
                 <Container fluid>
                     <Link to='/'>

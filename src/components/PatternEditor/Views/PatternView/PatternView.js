@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState, useMemo, useRef } from 'react'
 import {
     Frame,
-    Model,
-    Circle
+    Model
 } from '@dp50mm/hyperobjects-language'
 import '@dp50mm/hyperobjects-language/dist/index.css'
 import { generateProcedures } from '../../procedures'
@@ -31,7 +30,6 @@ const PatternView = () => {
         modelData,
         actions,
         refreshViews,
-        setRefreshViews,
         selectedElement,
         hoveredElement,
         frameFromParameters,
@@ -53,22 +51,24 @@ const PatternView = () => {
 
     var model = useMemo(() => {
         return new Model(pattern.name)
-    }, [pattern, pattern.patternJson])
+    }, [pattern])
     
     model.importModel(generatedModel)
-    
     useEffect(() => {
+        const _stylingSettings = {
+            showPointLabels
+        }
         if(frameFromParameters) {
             setUpdateFromParameters(true)
         }
         if(selectedElementInFrame !== selectedElement) {
             setSelectedElementInFrame(selectedElement)
-            resetGeometriesStyle(model, stylingSettings)
+            resetGeometriesStyle(model, _stylingSettings)
             setUpdateFromParameters(true)
         }
         if(highlightedElement !== hoveredElement) {
             setHighlightedElement(hoveredElement)
-            resetGeometriesStyle(model, stylingSettings)
+            resetGeometriesStyle(model, _stylingSettings)
             setUpdateFromParameters(true)
         }
         if(stylingUpdated) {
@@ -85,7 +85,9 @@ const PatternView = () => {
         hoveredElement,
         updateFromParameters,
         model,
-        frameFromParameters
+        frameFromParameters,
+        stylingUpdated,
+        showPointLabels
     ])
     
     if(hoveredElement && !_.isUndefined(model.geometries[hoveredElement])) {
@@ -140,8 +142,6 @@ const PatternView = () => {
                 }}
                 onClickCallback={(e) => {
                     if(tool === tools.add && selectedElement && isPoint(e)) {
-                        console.log('add point ', e, ' to geometry', selectedElement)
-                        console.log(actions)
                         actions.addPointToGeometry(e, selectedElement)
                     }
                 }}

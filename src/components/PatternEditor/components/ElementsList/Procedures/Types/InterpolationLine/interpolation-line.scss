@@ -1,0 +1,23 @@
+.interpolation-line-editor {
+    pointer-events: initial;
+    .line-settings {
+        padding-top: 5px;
+    }
+    .points-list {
+        position: relative;
+        left: -5px;
+    }
+    .add-point-form {
+        pointer-events: initial;
+        padding: 5px;
+        .ui.selection {
+            pointer-events: initial;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        button.ui.button {
+            width: 100%;
+        }
+    }
+
+}
