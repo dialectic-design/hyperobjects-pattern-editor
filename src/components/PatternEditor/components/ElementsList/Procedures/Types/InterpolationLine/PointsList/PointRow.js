@@ -1,10 +1,11 @@
+import React, { useState, useContext } from 'react'
 import { EditorContext } from 'components/PatternEditor/PatternEditor'
-import React, { useContext } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { List, Button } from 'semantic-ui-react'
 import { getItemStyle } from './dragDropStyles'
 import OrderControls from './OrderControls'
 import _ from 'lodash'
+import CurvePointSelector from './CurvePointSelector'
 
 const PointRow = ({
     procedure,
@@ -43,7 +44,11 @@ const DraggableContent = React.memo(({
     a
 }) => {
     const { actions } = useContext(EditorContext)
+    const [showCurvePointSelector, setShowCurvePointSelector] = useState(false)
+
     const description = procedure.procedure
+    let c1 = _.get(geometry, 'curvePoint1', false)
+    let c2 = _.get(geometry, 'curvePoint2', false)
     return (
         <List.Item className='draggable-list-item'>
             <List.Content className='list-content'>
@@ -58,6 +63,12 @@ const DraggableContent = React.memo(({
                         <p>
                             {geometry.path}
                         </p>
+                        {[c1, c2].every(p => p === false) && (
+                            <Button onClick={() => setShowCurvePointSelector(!showCurvePointSelector)}
+                                size='tiny' floated='right' className='add-curve-point right'>
+                                add curve points
+                            </Button>
+                        )}
                     </div>
                     <div className='right-content'>
                         <Button
@@ -74,6 +85,13 @@ const DraggableContent = React.memo(({
                             />
                     </div>
                 </div>
+                {(showCurvePointSelector || [c1, c2].some(p => p)) && (
+                    <CurvePointSelector
+                        procedure={procedure}
+                        geometry={geometry}
+                        geometryIndex={i}
+                        />
+                    )}
             </List.Content>
         </List.Item>
     )

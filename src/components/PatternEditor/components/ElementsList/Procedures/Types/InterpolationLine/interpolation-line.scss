@@ -6,6 +6,9 @@
     .points-list {
         position: relative;
         left: -5px;
+        .point-row {
+            
+        }
     }
     .add-point-form {
         pointer-events: initial;
@@ -19,5 +22,44 @@
             width: 100%;
         }
     }
+    .add-curve-point {
+        margin-right: 30px;
+        padding: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
 
+    .curve-point-selector {
+        margin-top: 5px;
+        display: flex;
+        flex-basis: 100%;
+        z-index: 1000;
+        .ui.selection.dropdown {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            min-height: 0px;
+            margin-bottom: 5px;
+            max-width: 100px !important;
+            min-width: 100px !important;
+            z-index: 1000;
+            .menu {
+                position: absolute;
+                z-index: 1000;
+            }
+            .dropdown.icon {
+                padding-top: 4px;
+                padding-bottom: 4px;
+            }
+        }
+        .ui.basic.label {
+            padding: 3px;
+            padding-left: 8px;
+            padding-right: 8px;
+            margin-top: 3px;
+            max-height: 20px;
+            opacity: 0.7;
+            
+            font-weight: 300;
+        }
+    }
 }
