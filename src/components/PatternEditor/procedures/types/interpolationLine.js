@@ -102,7 +102,7 @@ function interpolationLine(jsonDescription, name) {
             .stroke('black')
             .strokeWidth(1)
             .fontWeight(400)
-            .textAnchor("middle"))
+            .textAnchor("center"))
         }
         if(jsonDescription.offset) {
             let offsetPath = path.offset(-10)

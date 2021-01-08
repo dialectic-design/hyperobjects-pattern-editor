@@ -2,6 +2,7 @@ import interpolationLine from './interpolationLine'
 import straightLine from './straightLine'
 import copyTransform from './copyTransform'
 import mirrorShape from './mirrorShape'
+import button from './button'
 import _ from 'lodash'
 
 function dictToList(dict) {
@@ -14,7 +15,8 @@ export const types = {
     interpolationLine: interpolationLine,
     straightLine: straightLine,
     copyTransform: copyTransform,
-    mirrorShape: mirrorShape
+    mirrorShape: mirrorShape,
+    button: button
 }
 
 export const typesList = dictToList(types)

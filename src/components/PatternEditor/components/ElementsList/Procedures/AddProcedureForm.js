@@ -11,7 +11,8 @@ import { types } from 'components/PatternEditor/procedures/types'
 
 const addableTypes = [
     types.interpolationLine,
-    types.mirrorShape
+    types.mirrorShape,
+    types.button
 ]
 
 const AddProcedureForm = () => {

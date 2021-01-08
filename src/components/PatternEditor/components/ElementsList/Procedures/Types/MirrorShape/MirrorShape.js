@@ -7,9 +7,7 @@ import {
 } from 'semantic-ui-react'
 import _ from 'lodash'
 
-const MirrorShape = ({
-    procedure
-}) => {
+const MirrorShape = ({ procedure }) => {
     const { modelData, actions } = useContext(EditorContext)
     let selectableProcedures = modelData._procedures.map(p => {
         return {

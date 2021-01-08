@@ -3,7 +3,8 @@ export const names = {
     STRAIGHT_LINE: "STRAIGHT_LINE",
     INTERSECTION: "INTERSECTION",
     COPY_TRANSFORM: "COPY_TRANSFORM",
-    MIRROR_SHAPE: "MIRROR_SHAPE"
+    MIRROR_SHAPE: "MIRROR_SHAPE",
+    BUTTON: "BUTTON"
 }
 
 export default names
