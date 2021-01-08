@@ -140,6 +140,30 @@ const ButtonProcedureEditor = ({ procedure }) => {
                             Right
                         </Button>
                     </Button.Group>
+                    <Button.Group size='tiny' style={{width: '100%'}}>
+                        <Button
+                            toggle
+                            active={description.labelDirection === 'top'}
+                            onPointerDown={() => {
+                                actions.updateProcedure({...procedure,
+                                    procedure: {...description, labelDirection: 'top'}
+                                })
+                            }}
+                            >
+                            Top
+                        </Button>
+                        <Button
+                            toggle
+                            active={description.labelDirection === 'bottom'}
+                            onPointerDown={() => {
+                                actions.updateProcedure({...procedure,
+                                    procedure: {...description, labelDirection: 'bottom'}
+                                })
+                            }}
+                            >
+                            Bottom
+                        </Button>
+                    </Button.Group>
                 </Form.Field>
                 <Form.Field>
                     <label>Label distance</label>

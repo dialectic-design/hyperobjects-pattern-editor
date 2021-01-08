@@ -38,7 +38,7 @@ function buttonGenerator(jsonDescription, name) {
 
         returnGeometries.push(
             new Circle(point, jsonDescription.radius, 30)
-                .strokeWidth(4)
+                .strokeWidth(2)
                 .stroke(color)
                 .fill('white')
                 .fillOpacity(1)
@@ -69,36 +69,56 @@ function buttonGenerator(jsonDescription, name) {
         if(jsonDescription.showLabel) {
             var labelText = 'Button '
             var x = point.x
+            var y = point.y
             var underlineX = x
+            var underlineY = point.y
+
             var textAnchor = 'end'
             var edgeX = point.x
+            var edgeY = point.y
+
+
             const underlineExtent = 20
-            if(_.get(jsonDescription, 'labelDirection', 'left') === 'left') {
+            const labelDirection = _.get(jsonDescription, 'labelDirection', 'left')
+            if(labelDirection === 'left') {
                 x -= (jsonDescription.radius + _.get(jsonDescription, 'labelDistance', 10))
                 edgeX -= jsonDescription.radius
                 underlineX = x - underlineExtent
-            } else {
+
+            } else if(labelDirection === 'right') {
                 x += (jsonDescription.radius + _.get(jsonDescription, 'labelDistance', 10))
                 textAnchor = "start"
                 edgeX += jsonDescription.radius
                 underlineX = x + underlineExtent
+
+            } else if(labelDirection === 'top') {
+                y -= (jsonDescription.radius + _.get(jsonDescription, 'labelDistance', 10))
+                edgeY -= jsonDescription.radius
+                underlineY = y - 2
+                textAnchor = 'start'
+
+            } else if(labelDirection === 'bottom') {
+                y += (jsonDescription.radius + _.get(jsonDescription, 'labelDistance', 10)) + 20
+                edgeY += jsonDescription.radius
+                underlineY = y - 15
+                textAnchor = 'start'
             }
             if(jsonDescription.gender) labelText += `(${jsonDescription.gender})`
             returnGeometries.push(
                 new Text(
                     labelText,
-                    {x: x, y: point.y - 1}
+                    {x: x, y: y - 2}
                 ).textAnchor(textAnchor).fontSize(20).fill('rgb(100, 100, 100)')
             )
             returnGeometries.push(
                 new Path(
-                    [{x: underlineX, y: point.y
+                    [{x: underlineX, y: underlineY
                         },
                         {
                         x: edgeX,
-                        y: point.y
+                        y: edgeY
                     }]
-                ).stroke('rgb(100, 100, 100)')
+                ).stroke('rgb(150, 150, 150)').strokeWidth(1)
             )
         }
 
