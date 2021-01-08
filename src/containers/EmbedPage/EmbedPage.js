@@ -78,7 +78,23 @@ const EmbedPage = () => {
                 <p>Set a pattern in the url.</p>
             )}
             {patternData && (
-                <ParsedModel patternData={patternData} mode={mode} />
+                <React.Fragment>
+                    <p style={{
+                        position: 'absolute',
+                        top: 5, left: 10,
+                        fontSize: 10,
+                        opacity: 0.5, zIndex: 2000,
+                        }}>
+                        <a
+                            target="_blank"
+                            href={`https://pattern.hyperobjects.design/embed/?pattern=${patternId}&mode=${mode}`}
+                            >
+                            open full screen
+                        </a>
+                    </p>
+                    <ParsedModel patternData={patternData} mode={mode} />
+                </React.Fragment>
+                
             )}
         </div>
     )
@@ -97,6 +113,7 @@ const ParsedModel = ({
     model.importModel(parsedModelData)
     return (
         <div className='parsed-model'>
+            
         {mode === EDITOR_MODE && (
             <Display model={model} />
         )}
