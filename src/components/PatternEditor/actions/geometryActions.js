@@ -16,7 +16,7 @@ function generateGeometryActions(modelData, setModelData, pattern, storeModelUpd
             var newModelData = modelData
             newModelData.editableGeometriesList.push(newGeometryName)
             newModelData.geometries[newGeometryName] = new Path()
-            setModelData(newModelData, true)
+            setModelData(newModelData, false, true)
             storeModelUpdate(newModelData)
         },
         removeGeometry: (geometryKey) => {
