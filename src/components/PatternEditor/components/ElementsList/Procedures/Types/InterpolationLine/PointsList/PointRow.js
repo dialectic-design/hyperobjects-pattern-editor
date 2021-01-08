@@ -65,7 +65,7 @@ const DraggableContent = React.memo(({
                         </p>
                         {[c1, c2].every(p => p === false) && (
                             <Button onClick={() => setShowCurvePointSelector(!showCurvePointSelector)}
-                                size='tiny' floated='right' className='add-curve-point right'>
+                                size='tiny' floated='right' basic className='add-curve-point right'>
                                 add curve points
                             </Button>
                         )}

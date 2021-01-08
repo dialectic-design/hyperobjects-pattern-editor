@@ -7,6 +7,7 @@
     "@dialectic-design/hyperobjects-user-context": "^1.0.14",
     "@dp50mm/hyperobjects-language": "^1.7.33",
     "@react-hook/mouse-position": "^4.1.0",
+    "@rehooks/component-size": "^1.0.3",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",

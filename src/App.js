@@ -21,6 +21,7 @@ import '@dialectic-design/hyperobjects-entity-context/dist/index.css'
 import '@dialectic-design/hyperobjects-user-context/dist/index.css'
 import './App.scss';
 import _ from 'lodash'
+import EmbedPage from 'containers/EmbedPage';
 
 export const patternStore = createStore('pattern')
 const PatternProvider = patternStore.provider
@@ -66,22 +67,28 @@ const AppWithUserAndPattern = () => {
 	return (
 		<UIContext.Provider value={uiState}>
 		<Router>
-			<div className='app'>
-				<MainMenu uiState={uiState} />
-				<div className='page-content'>
-					<Switch>
+			<Switch>
+				<Route path='/embed'>
+					<EmbedPage />
+				</Route>
+				<div className='app'>
+					<MainMenu uiState={uiState} />
+					<div className='page-content'>
+						
 						<Route path='/create-account'>
 							<CreateAccountPage />
 						</Route>
 						<Route path='/account'>
 							<AccountPage />
 						</Route>
+						
 						<Route path='/'>
 							<MainPage uiState={uiState} />
 						</Route>
-					</Switch>
+						
+					</div>
 				</div>
-			</div>
+			</Switch>
 		</Router>
 		</UIContext.Provider>
 	)
