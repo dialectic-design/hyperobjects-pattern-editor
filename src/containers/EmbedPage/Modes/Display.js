@@ -22,7 +22,6 @@ const PatternDisplay = ({ model }) => {
                 showBounds={true}
                 showGridLines={true}
                 showZoomControls={true}
-                renderType="SVG"
                 exportControls={false}
                 />
         </div>
