@@ -71,23 +71,31 @@ const AppWithUserAndPattern = () => {
 				<Route path='/embed'>
 					<EmbedPage />
 				</Route>
-				<div className='app'>
-					<MainMenu uiState={uiState} />
-					<div className='page-content'>
-						
-						<Route path='/create-account'>
-							<CreateAccountPage />
-						</Route>
-						<Route path='/account'>
-							<AccountPage />
-						</Route>
-						
-						<Route path='/'>
-							<MainPage uiState={uiState} />
-						</Route>
-						
+				<Route path='/create-account'>
+					<div className='app'>
+						<MainMenu uiState={uiState} />
+						<div className='page-content'>
+								<CreateAccountPage />
+						</div>
 					</div>
-				</div>
+				</Route>
+				<Route path='/account'>
+					<div className='app'>
+						<MainMenu uiState={uiState} />
+						<div className='page-content'>
+								<AccountPage />
+						</div>
+					</div>
+				</Route>
+						
+				<Route path='/'>
+					<div className='app'>
+						<MainMenu uiState={uiState} />
+						<div className='page-content'>
+							<MainPage uiState={uiState} />
+						</div>
+					</div>
+				</Route>
 			</Switch>
 		</Router>
 		</UIContext.Provider>
