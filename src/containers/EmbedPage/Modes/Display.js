@@ -22,7 +22,7 @@ const PatternDisplay = ({ model }) => {
                 showBounds={true}
                 showGridLines={true}
                 showZoomControls={true}
-                exportControls={false}
+                exportControls={true}
                 />
         </div>
     )

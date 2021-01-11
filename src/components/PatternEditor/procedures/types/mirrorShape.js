@@ -47,6 +47,7 @@ function mirrorShape(jsonDescription, name) {
             y: 0
         }).copyStyle(path)
         .closed(path.closedPath)
+        .setShowSegmentLengthLabels(true)
         return newPath
             
     }
