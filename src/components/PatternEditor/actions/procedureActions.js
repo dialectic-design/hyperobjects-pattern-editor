@@ -29,6 +29,25 @@ function generateProcedureActions(modelData, setModelData, pattern, storeModelUp
             }
             setModelData(newModelData, false, true)
             storeModelUpdate(newModelData)
+        },
+
+        renameProcedure: (prevName, nextName) => {
+            const newNameExists = modelData._procedures.map(p => p.name).includes(nextName)
+            var newModelData = {
+                ...modelData,
+                _procedures: modelData._procedures.map(p => {
+                    if(p.name === prevName) {
+                        return {
+                            ...p,
+                            name: nextName
+                        }
+                    } else {
+                        return p
+                    }
+                })
+            }
+            setModelData(newModelData, true)
+            storeModelUpdate(newModelData)
         }
     }
     return actions 

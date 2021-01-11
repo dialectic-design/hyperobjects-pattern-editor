@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import InterpolationLine from './Types/InterpolationLine'
 import MirrorShape from './Types/MirrorShape'
 import ButtonProcedureEditor from './Types/Button'
@@ -6,14 +6,35 @@ import { types } from 'components/PatternEditor/procedures/types'
 import { EditorContext } from 'components/PatternEditor/PatternEditor'
 
 import {
+    Input,
     Button,
-    Modal
+    Modal,
+    Message
 } from 'semantic-ui-react'
 
 const Procedure = ({ procedure }) => {
-    const { actions } = useContext(EditorContext)
+    const { actions, modelData } = useContext(EditorContext)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [showEditor, setShowEditor] = useState(false)
+    const [newName, setNewName] = useState(procedure.name)
+    var nameInputClassName = 'procedure-name'
+    var inputNameLabel = false
+    const nameEditted = newName !== procedure.name
+    const newNameExists = modelData._procedures.map(p => p.name).includes(newName)
+    if (nameEditted) {
+        nameInputClassName += ' editted'
+
+        inputNameLabel = (
+            <Button.Group>
+            <Button disabled={newNameExists} size='tiny' onClick={() => actions.renameProcedure(procedure.name, newName)}>
+                Update
+            </Button>
+            <Button size='tiny' onClick={() => setNewName(procedure.name)}>
+                Cancel
+            </Button>
+            </Button.Group>
+        )
+    }
     return (
         <React.Fragment>
             <Modal size="mini" open={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
@@ -23,14 +44,22 @@ const Procedure = ({ procedure }) => {
                 </Modal.Content>
             </Modal>
         <div className='procedure' style={{paddingBottom: showEditor ? 5 : 30}}>
-            <h4>{procedure.name}</h4>
-            
+            <Input
+                value={newName}
+                label={inputNameLabel}
+                labelPosition='right'
+                onChange={(e) => setNewName(e.target.value)}
+                className={nameInputClassName}
+                />
+            {nameEditted && newNameExists && (
+                <Message size='tiny' negative>Name {newName} exists already</Message>
+            )}
             <Button onClick={() => {
                 console.log('delete ', procedure)
                 setShowDeleteModal(true)
                 // patternActions.deleteProcedure(props.index, props.name)
 
-            }} className='delete-button' icon='trash' size='mini' floated='right' />
+            }} className='delete-button' icon='trash' size='mini' />
             <Button
                 size="tiny"
                 onClick={() => setShowEditor(!showEditor)}

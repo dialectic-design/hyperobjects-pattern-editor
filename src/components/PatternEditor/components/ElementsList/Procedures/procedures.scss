@@ -1,4 +1,7 @@
 .procedures-list {
+    [contenteditable] {
+        outline: 0px solid transparent;
+    }
     .ui.selection {
         pointer-events: initial;
         width: 100%;
@@ -14,17 +17,47 @@
         border-radius: 5px;
         position: relative;
         width: 305px;
-        .delete-button {
-            position: relative;
-            margin-top: 10px;
+        .ui.input.procedure-name {
+            pointer-events: initial;
+            user-select: initial;
+            input {
+                padding: 2px;
+                padding-left: 5px;
+                background: transparent;
+                border: 1px solid transparent;
+                font-weight: 700 !important; 
+                font-family: europa;
+            }
+            &.editted {
+                input {
+                    border: 1px solid white;
+                    font-style: italic !important;
+                }
+                
+            }
+            
+            .ui.buttons {
+                padding: 0px;
+                button.ui.button {
+                    padding: 5px !important;
+                    font-size: 10px;
+                    padding-left: 15px;
+                    padding-right: 15px;
+                    background: black;
+                    width: 50px;
+                    color: white;
+                }
+            }
+            
+        }
+        button.ui.button.delete-button {
+            position: absolute;
+            top: 0px;
+            right: -3px;
             background: transparent;
         }
 
         .show-editor-button-toggle {
-            position: absolute;
-            top: 30px;
-            left: 5px;
-            right: 5px;
             width: 260px;
             padding: 3px;
         }
@@ -37,11 +70,6 @@
             font-weight: 600;
             font-size: 11px;
             text-transform: uppercase;
-        }
-        button.ui.button.delete-button {
-            position: relative;
-            top: -18px;
-            padding: 6px;
         }
     }
 
