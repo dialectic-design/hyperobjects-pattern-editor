@@ -7,7 +7,7 @@ import {
 } from 'semantic-ui-react'
 
 const NewGeometryPopUp = () => {
-    const { modelData, actions } = useContext(EditorContext)
+    const { modelData, actions, setSelectedElement } = useContext(EditorContext)
     const [showNewGeometryPopUp, setShowNewGeometryPopUp] = useState(false)
     const [newGeometryName, setNewGeometryName] = useState("new geometry")
     var nameAvailable = !modelData.editableGeometriesList.some(p => p === newGeometryName)
@@ -25,6 +25,7 @@ const NewGeometryPopUp = () => {
                         size='mini'
                         onClick={() => {
                             actions.addNewGeometry(newGeometryName)
+                            setSelectedElement(newGeometryName)
                             setShowNewGeometryPopUp(false)
                         }}
                         >

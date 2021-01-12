@@ -30,7 +30,7 @@ export const fragment = /* glsl */ `
     varying vec3 vAlpha;
     void main() {
         vec3 normal = normalize(vNormal);
-        float lighting = dot(normal, normalize(vec3(-0.7, 0.8, 0.6)));
+        float lighting = dot(normal, normalize(vec3(-0.2, 0.8, 0.6)));
         gl_FragColor.rgb = 0.1 + vec3(vColor.r, vColor.g, vColor.b) * 0.6 + lighting * 0.4;
         gl_FragColor.a = vAlpha[0];
     }
