@@ -1,5 +1,14 @@
-h1, h2, h3, h4, h5, p, li, ul, strong, i, a, button, input {
+h1, h2, h3, h4, h5, p, li, ul, strong, i, a, button, input, label {
   font-family: Europa;
+}
+
+button.ui.button {
+  font-family: Europa;
+}
+.ui.input {
+  input {
+    font-family: Europa;
+  }
 }
 
 .app {

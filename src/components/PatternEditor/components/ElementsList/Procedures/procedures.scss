@@ -9,6 +9,10 @@
     }
     .checkbox {
         pointer-events: initial;
+        margin-right: 15px;
+        label {
+            padding-left: 1.4em;
+        }
     }
     .procedure {
         margin-bottom: 10px;
@@ -64,12 +68,15 @@
         .type-label {
             text-align: right;
             position: absolute;
-            top: 5px;
-            right: 5px;
+            top: 8px;
+            right: 25px;
             opacity: 0.5;
             font-weight: 600;
             font-size: 11px;
             text-transform: uppercase;
+            pointer-events: none;
+            user-select: none;
+            z-index: -1;
         }
     }
 
@@ -77,6 +84,15 @@
         .add-procedure-module {
             margin-left: 20px;
             width: 285px;
+        }
+    }
+
+    .procedure-color-picker {
+        > div {
+            display: block !important;
+            > div {
+                box-shadow: none !important;
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ import {
 import _ from 'lodash'
 import './interpolation-line.scss'
 import PointsList from './PointsList'
+import { CompactPicker } from 'react-color'
 
 const InterpolationLine = ({
     procedure
@@ -57,6 +58,27 @@ const InterpolationLine = ({
                     })
                 }}
                 label="closed path" />
+            <Checkbox
+                checked={_.get(description, 'simulate', false)}
+                onChange={() => {
+                    actions.updateProcedure({
+                        ...procedure,
+                        procedure: {
+                            ...description,
+                            simulate: !_.get(description, 'simulate', false),
+                            simulation: {
+                                ...description.simulation,
+                                position: _.get(description.simulation, 'position', {x: 0, y: 0, z: 0}),
+                                rotation: _.get(description.simulation, 'rotation', {x: 0, y: 0, z: 0})
+                            }
+                        }
+                    })
+                }}
+                label="simulate" />
+            </div>
+            <h4>Color</h4>
+            <div className='procedure-color-picker'>
+            <CompactPicker />
             </div>
         </div>
     )
