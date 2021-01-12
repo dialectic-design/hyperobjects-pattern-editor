@@ -9,21 +9,34 @@ import _ from 'lodash'
 import {
     start,
     stop,
-    animating,
+    startSimulation,
+    pauseSimulation,
+    simulating,
     windowResize,
-    updateGeometries
+    updateGeometries,
+    resetMomentum
 } from './renderer'
-
+import SimulationSettings from 'components/SimulationSettings'
+import './simulation-view.scss'
+import { types } from 'components/PatternEditor/procedures/types'
 
 function simulatedProcedures(p) {
     return _.get(p, 'procedure.output_type', false) === Path.type && _.get(p, 'procedure.simulate', false)
+}
+
+function windowSize() {
+    return {
+        width: window.innerWidth,
+        height: window.innerHeight - 45
+    }
 }
 
 const SimulationView = () => {
     const containerRef = useRef(null)
     const [initialized, setInitialized] = useState(false)
     const [currentRenderedUpdate, setCurrentRenderedUpdate] = useState(0)
-    const { pattern, modelData, modelUpdateCounter } = useContext(EditorContext)
+    const [simUpdateCounter, setSimUpdateCounter] = useState(0)
+    const { pattern, modelData, modelUpdateCounter, editorUIState } = useContext(EditorContext)
     
     var generatedModel = _.cloneDeep(modelData)
     generatedModel.procedures = generateProcedures(_.get(modelData, '_procedures'), [])
@@ -33,25 +46,49 @@ const SimulationView = () => {
     }, [pattern])
     
     model.importModel(generatedModel)
-    const size = {
-        width: window.innerWidth,
-        height: window.innerHeight - 45
-    }
+    
 
     useEffect(() => {
-        if(initialized === false && containerRef.current !== null && size.width > 0) {
+        if(initialized === false && containerRef.current !== null && windowSize().width > 0) {
             setInitialized(true)
             let shapes = _.get(modelData, '_procedures', []).filter(simulatedProcedures)
-            start(containerRef.current, size, model, shapes)
+            let seams = _.get(modelData, '_procedures', []).filter(p => p.procedure.type === types.seam.type)
+            start(containerRef.current, windowSize(), model, shapes, seams)
         }
         if(currentRenderedUpdate !== modelUpdateCounter) {
             setCurrentRenderedUpdate(modelUpdateCounter)
             let shapes = _.get(modelData, '_procedures', []).filter(simulatedProcedures)
-            updateGeometries(model, shapes)
+            let seams = _.get(modelData, '_procedures', []).filter(p => p.procedure.type === types.seam.type)
+            updateGeometries(model, shapes, seams)
         }
+        
+    }, [initialized, model, currentRenderedUpdate, modelUpdateCounter, modelData])
+
+    // pure dismount effect
+    useEffect(() => {
+        return () => {
+            stop()
+        }
+    }, [])
+    
+    useEffect(() => {
+        let listener = window.addEventListener('resize', () => windowResize(windowSize()), false)
+        return () => window.removeEventListener('resize', listener)
     })
+
+    const simulation = {
+        simulating: simulating,
+        play: () => { setSimUpdateCounter(simUpdateCounter + 1); startSimulation() },
+        pause: () => { setSimUpdateCounter(simUpdateCounter + 1); pauseSimulation() },
+        resetMomentum: () => { setSimUpdateCounter(simUpdateCounter + 1); resetMomentum() }
+    }
     return (
-        <div className='simulation-view' ref={containerRef}>
+        <div className='simulation-view'>
+            {editorUIState.showSettings && (
+                <SimulationSettings simulation={simulation} />
+            )}
+            <div className='canvas-container' ref={containerRef}>
+            </div>
         </div>
     )
 }

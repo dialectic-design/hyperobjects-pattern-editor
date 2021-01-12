@@ -1,22 +1,14 @@
 import React, { useState } from 'react'
 import { Form, Input, Button } from 'semantic-ui-react'
 import './position-editor.scss'
-
+import cleanFloatInput from 'utils/cleanFloatInput'
 const axes = [
     'x',
     'y',
     'z'
 ]
 
-function cleanInput(input) {
-    if(input !== "0" && input !== 0) {
-        input = input.replace(/^0+/, '').replace(/[^\d.-]/g,'')
-    }
-    if(input.length === 0) {
-        input = "0"
-    }
-    return input
-}
+
 
 const ENTER_KEY = 13
 
@@ -25,9 +17,6 @@ const PositionEditor = React.memo(({
     rotation,
     callback
 }) => {
-    const [newPosition, setNewPosition] = useState(position)
-    const [newRotation, setNewRotation] = useState(rotation)
-    console.log(newPosition)
     return (
         <div className='position-editor ui form'>
             <Form.Field>
@@ -40,20 +29,12 @@ const PositionEditor = React.memo(({
                             labelPosition="right"
                             value={position[axis]}
                             onChange={(e) => {
-                                var newPos = newPosition
-                                newPos[axis] = cleanInput(e.target.value)
+                                var newPos = position
+                                newPos[axis] = cleanFloatInput(e.target.value)
                                 callback({
                                     position: newPos,
                                     rotation: rotation
                                 })
-                            }}
-                            onKeyDown={(e) => {
-                                if(e.keyCode === ENTER_KEY) {
-                                    callback({
-                                        position: newPosition,
-                                        rotation: newRotation
-                                    })
-                                }
                             }}
                             />
                     )
@@ -69,20 +50,12 @@ const PositionEditor = React.memo(({
                             labelPosition="right"
                             value={rotation[axis]}
                             onChange={(e) => {
-                                var newPos = newRotation
-                                newPos[axis] = cleanInput(e.target.value)
+                                var newPos = rotation
+                                newPos[axis] = cleanFloatInput(e.target.value)
                                 callback({
                                     rotation: newPos,
                                     position: position
                                 })
-                            }}
-                            onKeyDown={(e) => {
-                                if(e.keyCode === ENTER_KEY) {
-                                    callback({
-                                        position: newPosition,
-                                        rotation: newRotation
-                                    })
-                                }
                             }}
                             />
                     )

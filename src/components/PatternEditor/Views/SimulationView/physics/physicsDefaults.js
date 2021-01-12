@@ -1,1 +1,1 @@
-export const stepSize = 0.015
+export const stepSize = 0.01

@@ -6,7 +6,7 @@ import {
     Form
 } from 'semantic-ui-react'
 import './model-settings.scss'
-import { EditorContext } from '../../../PatternEditor'
+import { EditorContext } from 'components/PatternEditor/PatternEditor'
 import CopyPatternForm from 'components/CopyPatternForm'
 
 const ModelSettings = ({ pattern, model, frameDisplaySettings }) => {

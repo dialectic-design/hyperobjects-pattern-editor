@@ -4,6 +4,7 @@ export const names = {
     INTERSECTION: "INTERSECTION",
     COPY_TRANSFORM: "COPY_TRANSFORM",
     MIRROR_SHAPE: "MIRROR_SHAPE",
+    SEAM: "SEAM",
     BUTTON: "BUTTON"
 }
 

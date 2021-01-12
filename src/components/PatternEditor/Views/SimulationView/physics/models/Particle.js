@@ -6,8 +6,6 @@ import {
     Point
 } from '@dp50mm/hyperobjects-language'
 
-import _ from 'lodash'
-
 import {
     stepSize
 } from '../physicsDefaults'
@@ -30,7 +28,7 @@ function Particle(position = {x: 0, y: 0, z: 0}, mass = 0.006) {
     }
     this.calculateForces = function() {
         var force = new Vec3()
-        force = force.add(this.gravityForce())
+        // force = force.add(this.gravityForce())
         this.springs.forEach(spring => {
             var springForceVec = spring.calculateForce(this)
             force = force.add(springForceVec)

@@ -51,7 +51,7 @@ const EmbedPage = () => {
                     console.log(error)
                 })
         }
-    })
+    }, [patternId, loadingData, patternData])
     if(loadingError) {
         return (
             <p>Loading error</p>
@@ -87,6 +87,7 @@ const EmbedPage = () => {
                         }}>
                         <a
                             target="_blank"
+                            rel="noreferrer"
                             href={`https://pattern.hyperobjects.design/embed/?pattern=${patternId}&mode=${mode}`}
                             >
                             open full screen

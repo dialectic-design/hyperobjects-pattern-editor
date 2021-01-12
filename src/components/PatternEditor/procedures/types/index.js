@@ -3,6 +3,7 @@ import straightLine from './straightLine'
 import copyTransform from './copyTransform'
 import mirrorShape from './mirrorShape'
 import button from './button'
+import seam from './seam'
 import _ from 'lodash'
 
 function dictToList(dict) {
@@ -16,7 +17,8 @@ export const types = {
     straightLine: straightLine,
     copyTransform: copyTransform,
     mirrorShape: mirrorShape,
-    button: button
+    button: button,
+    seam: seam
 }
 
 export const typesList = dictToList(types)

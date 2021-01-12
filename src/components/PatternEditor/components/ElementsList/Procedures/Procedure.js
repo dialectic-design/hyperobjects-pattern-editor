@@ -1,7 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react'
+
 import InterpolationLine from './Types/InterpolationLine'
 import MirrorShape from './Types/MirrorShape'
 import ButtonProcedureEditor from './Types/Button'
+import SeamProcedureEditor from './Types/Seam'
+
 import { types } from 'components/PatternEditor/procedures/types'
 import { EditorContext } from 'components/PatternEditor/PatternEditor'
 
@@ -81,6 +84,11 @@ const Procedure = ({ procedure }) => {
                     )}
                     {procedure.procedure.type === types.button.type && (
                         <ButtonProcedureEditor
+                            procedure={procedure}
+                            />
+                    )}
+                    {procedure.procedure.type === types.seam.type && (
+                        <SeamProcedureEditor
                             procedure={procedure}
                             />
                     )}

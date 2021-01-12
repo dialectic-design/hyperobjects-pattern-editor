@@ -32,7 +32,7 @@ const ButtonProcedureEditor = ({ procedure }) => {
                 <Form.Field>
                     <label>Sizing input</label>
                     <Select
-                        placeholder='select path'
+                        placeholder='select input'
                         options={inputs.map((input) => {
                             return {
                                 key: input,

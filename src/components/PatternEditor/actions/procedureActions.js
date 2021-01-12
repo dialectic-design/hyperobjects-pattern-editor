@@ -33,21 +33,26 @@ function generateProcedureActions(modelData, setModelData, pattern, storeModelUp
 
         renameProcedure: (prevName, nextName) => {
             const newNameExists = modelData._procedures.map(p => p.name).includes(nextName)
-            var newModelData = {
-                ...modelData,
-                _procedures: modelData._procedures.map(p => {
-                    if(p.name === prevName) {
-                        return {
-                            ...p,
-                            name: nextName
+            if(newNameExists) {
+                console.log('error, a procedure exists already with this name')
+            } else {
+                var newModelData = {
+                    ...modelData,
+                    _procedures: modelData._procedures.map(p => {
+                        if(p.name === prevName) {
+                            return {
+                                ...p,
+                                name: nextName
+                            }
+                        } else {
+                            return p
                         }
-                    } else {
-                        return p
-                    }
-                })
+                    })
+                }
+                setModelData(newModelData, true)
+                storeModelUpdate(newModelData)
             }
-            setModelData(newModelData, true)
-            storeModelUpdate(newModelData)
+            
         }
     }
     return actions 

@@ -21,24 +21,27 @@
         border-radius: 5px;
         position: relative;
         width: 305px;
-        .ui.input.procedure-name {
+        .ui.input {
             pointer-events: initial;
             user-select: initial;
-            input {
-                padding: 2px;
-                padding-left: 5px;
-                background: transparent;
-                border: 1px solid transparent;
-                font-weight: 700 !important; 
-                font-family: europa;
-            }
-            &.editted {
+            &.procedure-name {
                 input {
-                    border: 1px solid white;
-                    font-style: italic !important;
+                    padding: 2px;
+                    padding-left: 5px;
+                    background: transparent;
+                    border: 1px solid transparent;
+                    font-weight: 700 !important; 
+                    font-family: europa;
                 }
-                
+                &.editted {
+                    input {
+                        border: 1px solid white;
+                        font-style: italic !important;
+                    }
+                    
+                }
             }
+            
             
             .ui.buttons {
                 padding: 0px;
@@ -52,7 +55,6 @@
                     color: white;
                 }
             }
-            
         }
         button.ui.button.delete-button {
             position: absolute;
