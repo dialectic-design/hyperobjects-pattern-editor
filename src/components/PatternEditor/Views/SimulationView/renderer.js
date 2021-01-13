@@ -3,9 +3,10 @@ import {
     Camera,
     Transform,
     Program,
-    Orbit,
     Vec3
 } from 'ogl'
+import {Orbit} from './CustomOrbit'
+
 import {
     vertex,
     fragment
@@ -22,6 +23,8 @@ let renderer = new Renderer({ dpr: 2 })
 let gl = renderer.gl
 const bgShade = 1
 gl.clearColor(bgShade, bgShade, bgShade, 1)
+
+var cameraAnimation = false
 
 const camera = new Camera(gl, {
     fov: 45,
@@ -92,6 +95,10 @@ export function pauseSimulation() {
     simulating = false
 }
 
+export function updateCameraAnimation(animation) {
+    cameraAnimation = animation
+}
+
 /**
  * Geometries
  */
@@ -141,7 +148,7 @@ function render() {
     if(animating && canvasCreated) {
         frame = frame + 1
         if(controls) {
-            controls.update()
+            controls.update(cameraAnimation)
         }
         var shouldTickSimulation = true
         if(simTick > 2) {

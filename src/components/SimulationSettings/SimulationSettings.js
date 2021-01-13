@@ -44,6 +44,50 @@ const SimulationSettings = ({
                             Reset momentum
                         </Button>
                     </Card.Content>
+                    <Card.Content>
+                        <Button.Group size='tiny' style={{width: 88}}>
+                            <Button icon='backward'
+                                toggle
+                                active={simulation.animateCamera === -1}
+                                onClick={() => simulation.setAnimateCamera(-1)}
+                                />
+                            <Button icon='pause'
+                                toggle
+                                active={simulation.animateCamera === false}
+                                onClick={() => simulation.setAnimateCamera(false)}
+                                />
+                            <Button icon='forward'
+                                toggle
+                                active={simulation.animateCamera === 1}
+                                onClick={() => simulation.setAnimateCamera(1)}
+                                />
+                        </Button.Group>
+                        <br />
+                        <br />
+                        <Button.Group size='tiny' style={{width: 88}}>
+                            <Button
+                                toggle
+                                active={simulation.cameraAnimationSpeed === 1}
+                                onClick={() => simulation.setCameraAnimationSpeed(1)}
+                                >
+                                1x
+                            </Button>
+                            <Button
+                                toggle
+                                active={simulation.cameraAnimationSpeed === 2}
+                                onClick={() => simulation.setCameraAnimationSpeed(2)}
+                                >
+                                2x
+                            </Button>
+                            <Button
+                                toggle
+                                active={simulation.cameraAnimationSpeed === 3}
+                                onClick={() => simulation.setCameraAnimationSpeed(3)}
+                                >
+                                3x
+                            </Button>
+                        </Button.Group>
+                    </Card.Content>
                 </Card>
             </Draggable>
         </div>

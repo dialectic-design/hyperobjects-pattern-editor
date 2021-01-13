@@ -14,7 +14,8 @@ import {
     simulating,
     windowResize,
     updateGeometries,
-    resetMomentum
+    resetMomentum,
+    updateCameraAnimation
 } from './renderer'
 import SimulationSettings from 'components/SimulationSettings'
 import './simulation-view.scss'
@@ -36,6 +37,8 @@ const SimulationView = () => {
     const [initialized, setInitialized] = useState(false)
     const [currentRenderedUpdate, setCurrentRenderedUpdate] = useState(0)
     const [simUpdateCounter, setSimUpdateCounter] = useState(0)
+    const [animateCamera, setAnimateCamera] = useState(false)
+    const [cameraAnimationSpeed, setCameraAnimationSpeed] = useState(1)
     const { pattern, modelData, modelUpdateCounter, editorUIState } = useContext(EditorContext)
     
     var generatedModel = _.cloneDeep(modelData)
@@ -80,7 +83,16 @@ const SimulationView = () => {
         simulating: simulating,
         play: () => { setSimUpdateCounter(simUpdateCounter + 1); startSimulation() },
         pause: () => { setSimUpdateCounter(simUpdateCounter + 1); pauseSimulation() },
-        resetMomentum: () => { setSimUpdateCounter(simUpdateCounter + 1); resetMomentum() }
+        resetMomentum: () => { setSimUpdateCounter(simUpdateCounter + 1); resetMomentum() },
+        animateCamera: animateCamera,
+        setAnimateCamera: (value) => { setAnimateCamera(value); updateCameraAnimation(value * cameraAnimationSpeed); },
+        cameraAnimationSpeed: cameraAnimationSpeed,
+        setCameraAnimationSpeed: (newSpeed) => {
+            setCameraAnimationSpeed(newSpeed)
+            if(animateCamera) {
+                updateCameraAnimation(animateCamera * newSpeed)
+            }
+        }
     }
     return (
         <div className='simulation-view'>
