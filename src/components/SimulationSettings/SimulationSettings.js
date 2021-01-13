@@ -1,7 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import {
     Card,
-    Button
+    Button,
+    Input
 } from 'semantic-ui-react'
 import { EditorContext } from 'components/PatternEditor/PatternEditor'
 import Draggable from 'react-draggable';
@@ -10,6 +11,7 @@ import './simulation-settings.scss'
 const SimulationSettings = ({
     simulation
 }) => {
+    const [particleStepSize, setParticleStepSize] = useState(simulation.particleStepSize)
     const {
         editorUIState
     } = useContext(EditorContext)
@@ -43,6 +45,50 @@ const SimulationSettings = ({
                         <Button size='tiny' onClick={() => simulation.resetMomentum()}>
                             Reset momentum
                         </Button>
+                    </Card.Content>
+                    <Card.Content>
+                        <Input
+                            label="particle step size"
+                            value={particleStepSize}
+                            onChange={(e) => {setParticleStepSize(e.target.value)}}
+                            size="mini"
+                            />
+                        <br />
+                        <Button
+                            active={particleStepSize !== simulation.particleStepSize}
+                            onClick={() => simulation.updateParticleStepSize(parseInt(particleStepSize))}
+                            size="tiny"
+                            >
+                            Update step size
+                        </Button>
+                        <br /><br />
+                        <p>Preset step sizes</p>
+                        <Button.Group size='tiny' style={{width: 88}}>
+                            <Button
+                                onClick={() => {
+                                    setParticleStepSize(20)
+                                    simulation.updateParticleStepSize(20)
+                                }}
+                                >
+                                20
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    setParticleStepSize(30)
+                                    simulation.updateParticleStepSize(30)
+                                }}
+                                >
+                                30
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    setParticleStepSize(40)
+                                    simulation.updateParticleStepSize(40)
+                                }}
+                                >
+                                40
+                            </Button>
+                        </Button.Group>
                     </Card.Content>
                     <Card.Content>
                         <Button.Group size='tiny' style={{width: 88}}>

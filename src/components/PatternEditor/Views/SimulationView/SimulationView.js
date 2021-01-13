@@ -39,6 +39,7 @@ const SimulationView = () => {
     const [simUpdateCounter, setSimUpdateCounter] = useState(0)
     const [animateCamera, setAnimateCamera] = useState(false)
     const [cameraAnimationSpeed, setCameraAnimationSpeed] = useState(1)
+    const [particleStepSize, setParticleStepSize] = useState(35)
     const { pattern, modelData, modelUpdateCounter, editorUIState } = useContext(EditorContext)
     
     var generatedModel = _.cloneDeep(modelData)
@@ -52,17 +53,18 @@ const SimulationView = () => {
     
 
     useEffect(() => {
+        console.log(initialized, containerRef.current)
         if(initialized === false && containerRef.current !== null && windowSize().width > 0) {
             setInitialized(true)
             let shapes = _.get(modelData, '_procedures', []).filter(simulatedProcedures)
             let seams = _.get(modelData, '_procedures', []).filter(p => p.procedure.type === types.seam.type)
-            start(containerRef.current, windowSize(), model, shapes, seams)
+            start(containerRef.current, windowSize(), model, shapes, seams, particleStepSize)
         }
         if(currentRenderedUpdate !== modelUpdateCounter) {
             setCurrentRenderedUpdate(modelUpdateCounter)
             let shapes = _.get(modelData, '_procedures', []).filter(simulatedProcedures)
             let seams = _.get(modelData, '_procedures', []).filter(p => p.procedure.type === types.seam.type)
-            updateGeometries(model, shapes, seams)
+            updateGeometries(model, shapes, seams, particleStepSize)
         }
         
     }, [initialized, model, currentRenderedUpdate, modelUpdateCounter, modelData])
@@ -92,6 +94,19 @@ const SimulationView = () => {
             if(animateCamera) {
                 updateCameraAnimation(animateCamera * newSpeed)
             }
+        },
+        particleStepSize: particleStepSize,
+        updateParticleStepSize: (newStepSize) => {
+            console.log('update step size', newStepSize)
+            setParticleStepSize(newStepSize);
+            
+            stop()
+            var containerNode = document.getElementById('simulation-canvas-container')
+            containerNode.innerHTML = ''
+            setTimeout(() => {
+                setInitialized(false)
+            }, 10)
+            
         }
     }
     return (
@@ -99,7 +114,7 @@ const SimulationView = () => {
             {editorUIState.showSettings && (
                 <SimulationSettings simulation={simulation} />
             )}
-            <div className='canvas-container' ref={containerRef}>
+            <div className='canvas-container' ref={containerRef} id="simulation-canvas-container">
             </div>
         </div>
     )

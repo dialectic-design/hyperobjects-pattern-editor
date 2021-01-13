@@ -55,7 +55,7 @@ var physicsModel = false
 var seamSprings = false
 
 
-export function start(canvasContainer, _size, model, shapes, seams) {
+export function start(canvasContainer, _size, model, shapes, seams, particleStepSize) {
     size = _size
     animating = true 
     if(!canvasCreated) {
@@ -66,7 +66,7 @@ export function start(canvasContainer, _size, model, shapes, seams) {
             element: gl.canvas,
             target: new Vec3(0)
         })
-        var output = generateGeometries(gl, scene, program, model, shapes, seams)
+        var output = generateGeometries(gl, scene, program, model, shapes, seams, particleStepSize)
         physicsModel = output.shapesSpringModels 
         seamSprings = output.seamSprings
         resize()
@@ -103,10 +103,10 @@ export function updateCameraAnimation(animation) {
  * Geometries
  */
 
-export function updateGeometries(model, shapes, seams) {
+export function updateGeometries(model, shapes, seams, particleStepSize) {
     scene.children = []
     workBox(gl, program, scene, model)
-    var output = generateGeometries(gl, scene, program, model, shapes, seams)
+    var output = generateGeometries(gl, scene, program, model, shapes, seams, particleStepSize)
     physicsModel = output.shapesSpringModels 
     seamSprings = output.seamSprings
     simTick = 0

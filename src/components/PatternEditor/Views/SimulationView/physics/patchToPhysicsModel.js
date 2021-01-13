@@ -10,9 +10,8 @@ import { Path, Point } from '@dp50mm/hyperobjects-language'
 
 var voronoi = d3Voronoi.voronoi()
 
-const particleStepSize = 35
 
-function patchToPhysicsModel(_path, name, orientation) {
+function patchToPhysicsModel(_path, name, orientation, particleStepSize=35) {
     var path = _path.clone()
     if(!path.isClockwise()) {
         path = path.reverse()

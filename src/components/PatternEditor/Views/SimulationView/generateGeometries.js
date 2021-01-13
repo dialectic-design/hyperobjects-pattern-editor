@@ -10,7 +10,7 @@ import _ from 'lodash'
 import colorData from './utils/colorData'
 import alphaData from './utils/alphaData'
 
-function generateGeometries(gl, scene, program, model, shapes, seams) {
+function generateGeometries(gl, scene, program, model, shapes, seams, particleStepSize=35) {
     let sourceShapes = shapes.map(shape => {
         var geometries = model.procedures[shape.name](model)
         if(_.isArray(geometries)) {
@@ -47,7 +47,8 @@ function generateGeometries(gl, scene, program, model, shapes, seams) {
             springModel: patchToPhysicsModel(
                 shape.geometry,
                 shape.name,
-                orientation
+                orientation,
+                particleStepSize
             )
         }
     })
