@@ -6,7 +6,7 @@ import {
     springForceFormula
 } from '../functions'
 
-
+// 0.002 initial param
 function Spring(p1, p2, restLength = 10, k = 0.002) {
     this.p1 = p1
     this.p2 = p2
@@ -14,8 +14,8 @@ function Spring(p1, p2, restLength = 10, k = 0.002) {
     this.pointIdsReverse = `${p2._id}-${p1._id}`
     this.restLength = restLength
     this.k = k
-    this.damping = 0.85
-    this.friction = 0.01
+    this.damping =  0.9 // 0.85
+    this.friction = 0.005 // 0.01
     this.calculateForce = function(targetPoint) {
         var force = springForceFormula(this.k, this.diffFromRestLength() )
         force = _.clamp(force, -100, 100)

@@ -6,7 +6,7 @@ import {
 } from './functions'
 import * as d3Voronoi from 'd3-voronoi'
 import { Vec3, Mat4, Quat } from 'ogl'
-import { Path } from '@dp50mm/hyperobjects-language'
+import { Path, Point } from '@dp50mm/hyperobjects-language'
 
 var voronoi = d3Voronoi.voronoi()
 
@@ -15,15 +15,9 @@ const particleStepSize = 35
 function patchToPhysicsModel(_path, name, orientation) {
     var path = _path.clone()
     if(!path.isClockwise()) {
-        var pointsReversed = _.reverse(path.points)
-        path = new Path(pointsReversed.map(p => {
-            return {
-                x: p.x,
-                y: p.y,
-                z: p.z
-            }
-        })).closed(true)
+        path = path.reverse()
     }
+    path.closed(true)
     var pathCenter = path.center()
     path = path.translate({
         x: -pathCenter.x,
@@ -33,7 +27,10 @@ function patchToPhysicsModel(_path, name, orientation) {
     
     var massDensity = 0.0000002
     var totalMass = pathArea * massDensity
-    var segments = path.segments()
+    // TODO: For some reason some functions mess up the contain & segment checks so have to copy a new path
+    // Todo, check why this is happening
+    var pathContainTest = new Path(path.points).closed(true)
+    var segments = pathContainTest.segments()
     var particles = []
     var innerParticles = []
     var outlineParticles = []
@@ -68,15 +65,16 @@ function patchToPhysicsModel(_path, name, orientation) {
     var cols = Math.floor(boundsWidth / particleStepSize)
     var rowStepSize = boundsHeight / rows
     var colStepSize = boundsWidth / cols
+    
     for(var row = 0; row < rows; row++) {
         var shiftRow = (row % 2) * colStepSize * 0.5
         for(var col = 0; col < cols; col++) {
-            var point = {
+            var point = new Point({
                 x: boundsP1.x + colStepSize * col + shiftRow,
                 y: boundsP1.y + rowStepSize * row,
-                z: 0
-            }
-            if(path.contains(point)) {
+                //z: 0
+            })
+            if(pathContainTest.contains(point)) {
                 var particle = new Particle(point)
                 particle._i = col
                 particle._j = row
