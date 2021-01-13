@@ -1,8 +1,6 @@
-import _ from 'lodash'
 import TrianglePatch from './TrianglePatch'
 import {
-    Mesh,
-    Vec3
+    Mesh
 } from 'ogl'
 import colorData from '../utils/colorData'
 import alphaData from '../utils/alphaData'

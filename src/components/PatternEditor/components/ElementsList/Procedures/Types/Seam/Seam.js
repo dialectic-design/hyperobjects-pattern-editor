@@ -3,7 +3,6 @@ import { EditorContext } from 'components/PatternEditor/PatternEditor'
 import {
     Select,
     Input,
-    Button,
     Form,
     Checkbox
 } from 'semantic-ui-react'

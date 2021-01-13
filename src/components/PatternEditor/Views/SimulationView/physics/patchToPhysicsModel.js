@@ -162,16 +162,22 @@ function patchToPhysicsModel(_path, name, orientation) {
     springs.forEach(spring => {
         spring.restLength = spring.p1.position.distance(spring.p2.position)
     })
-    var particleIndexes = particles.map((p, i) => {
-        return {
-            pos: p.position,
-            i: i
-        }
-    })
-    particleIndexes = particleIndexes.sort((a, b) => b.pos.y - a.pos.y)
-    _.range(7).forEach(i => {
-        // particles[particleIndexes[i].i].fixed = true
-    })
+
+
+    // Create toggle to fix particles
+    // var particleIndexes = particles.map((p, i) => {
+    //     return {
+    //         pos: p.position,
+    //         i: i
+    //     }
+    // })
+    // particleIndexes = particleIndexes.sort((a, b) => b.pos.y - a.pos.y)
+    // _.range(7).forEach(i => {
+    //     particles[particleIndexes[i].i].fixed = true
+    // })
+
+
+
     return {
         particles: particles,
         springs: springs,

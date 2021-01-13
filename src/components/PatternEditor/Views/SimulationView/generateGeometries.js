@@ -10,16 +10,6 @@ import _ from 'lodash'
 import colorData from './utils/colorData'
 import alphaData from './utils/alphaData'
 
-function springExists(springs, spring) {
-    var exists = false
-    springs.forEach(_spring => {
-        if(_spring.pointIds === spring.pointIds || _spring.pointIdsReverse === spring.pointIds) {
-            exists = true
-        }
-    })
-    return exists
-}
-
 function generateGeometries(gl, scene, program, model, shapes, seams) {
     let sourceShapes = shapes.map(shape => {
         var geometries = model.procedures[shape.name](model)
@@ -65,8 +55,10 @@ function generateGeometries(gl, scene, program, model, shapes, seams) {
 
     
     seams.forEach(seam => {
-        var patch1 = _.find(shapesSpringModels, shape => shape.name === seam.procedure.patch1)
-        var patch2 = _.find(shapesSpringModels, shape => shape.name === seam.procedure.patch2)
+        const patch1 = _.find(shapesSpringModels, shape => shape.name === seam.procedure.patch1)
+        const patch2 = _.find(shapesSpringModels, shape => shape.name === seam.procedure.patch2)
+        const alignment1 = _.get(seam, 'procedure.alignment1', 'start')
+        const alignment2 = _.get(seam, 'procedure.alignment2', 'start')
         const segment1Index = _.get(seam, 'procedure.segment1Index', 0)
         const segment2Index = _.get(seam, 'procedure.segment2Index', 0)
         if(!_.some([patch1, patch2], _.isUndefined)) {
@@ -74,29 +66,47 @@ function generateGeometries(gl, scene, program, model, shapes, seams) {
             var particlesOne = patch1OutlineParticles.filter(p => {
                 return p.segment === segment1Index || p.prevSegment === segment1Index
             })
-            particlesOne = _.sortBy(particlesOne, 'segment', 'segmentStep')
-            particlesTwo = _.sortBy(particlesTwo, 'segment', 'segmentStep')
             var particlesTwo = patch2.springModel.particles.filter(p => {
                 return p.segment === segment2Index || p.prevSegment === segment2Index
             })
+
+            particlesOne = particlesOne.sort((a, b) => b.segment - a.segment || b.segmentStep - a.segmentStep)
+            particlesTwo = particlesTwo.sort((a, b) => b.segment - a.segment || b.segmentStep - a.segmentStep)
+                        
             var particlesToConnect = _.min([particlesOne.length, particlesTwo.length])
+            var particlesOneShift = 0
+            var particlesTwoShift = 0
+            const diff = Math.abs(particlesOne.length - particlesTwo.length)
+            if(particlesOne.length < particlesTwo.length) {
+                if(alignment2 === 'middle') {
+                    particlesTwoShift += Math.round(diff / 2)
+                } else if(alignment2 === 'end') {
+                    particlesTwoShift += diff
+                }
+            } else if(particlesTwo.length < particlesOne.length) {
+                if(alignment1 === 'middle') {
+                    particlesOneShift += Math.round(diff / 2)
+                } else if(alignment1 === 'end') {
+                    particlesOneShift += diff
+                }
+            }
             for (var i = 0; i < particlesToConnect; i++) {
-                var p1 = particlesOne[i]
-                var p2 = particlesTwo[i]
+                var p1 = _.get(particlesOne, i + particlesOneShift, false)
+                var p2 = _.get(particlesTwo, i + particlesTwoShift, false)
                 if(_.get(seam, 'procedure.flipDirection', false)) {
-                    p2 = particlesTwo[particlesTwo.length - i - 1]
-                } else {
-                    p2 = particlesTwo[i]
+                    p2 = _.get(particlesTwo, particlesTwo.length - i - 1 - particlesTwoShift, false)
                 }
-                var inputSpringStrength = _.get(seam, 'procedure.springStrength', 0)
-                if(inputSpringStrength === 0) {
-                    inputSpringStrength = 5
+                if(p1 && p2) {
+                    var inputSpringStrength = _.get(seam, 'procedure.springStrength', 0)
+                    if(inputSpringStrength === 0) {
+                        inputSpringStrength = 5
+                    }
+                    var spring = new Spring(p1, p2, 1, inputSpringStrength/100000)
+                    spring.springType = 'seam'
+                    p1.springs.push(spring)
+                    p2.springs.push(spring)
+                    seamSprings.push(spring)
                 }
-                var spring = new Spring(p1, p2, 1, inputSpringStrength/100000)
-                spring.springType = 'seam'
-                p1.springs.push(spring)
-                p2.springs.push(spring)
-                seamSprings.push(spring)
             }
         }
         

@@ -1,0 +1,12 @@
+.seams-list {
+    .seam {
+        margin-top: 10px;
+        padding: 5px;
+        width: 295px;
+        background: rgba(100,100,100,0.1);
+        border-radius: 5px;
+        .ui.buttons {
+            width: 100%;
+        }
+    }
+}

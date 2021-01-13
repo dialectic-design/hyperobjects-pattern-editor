@@ -1,16 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Form, Input, Button } from 'semantic-ui-react'
 import './position-editor.scss'
 import cleanFloatInput from 'utils/cleanFloatInput'
+
 const axes = [
     'x',
     'y',
     'z'
 ]
 
-
-
-const ENTER_KEY = 13
 
 const PositionEditor = React.memo(({
     position,
