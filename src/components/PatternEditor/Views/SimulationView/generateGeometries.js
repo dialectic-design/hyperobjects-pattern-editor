@@ -63,13 +63,16 @@ function generateGeometries(gl, scene, program, model, shapes, seams, particleSt
         const alignment1 = _.get(seam, 'procedure.alignment1', 'start')
         const alignment2 = _.get(seam, 'procedure.alignment2', 'start')
         var segment1Index = _.get(seam, 'procedure.segment1Index', 0)
+        console.log(seam)
         if(patch1.springModel.pathIsFlipped) {
-            segment1Index = patch1.springModel.segmentCount - segment1Index - 2
+            segment1Index = patch1.springModel.segmentCount - segment1Index - 1
         }
         var segment2Index = _.get(seam, 'procedure.segment2Index', 0)
         if(patch2.springModel.pathIsFlipped) {
-            segment2Index = patch2.springModel.segmentCount - segment2Index - 2
+            segment2Index = patch2.springModel.segmentCount - segment2Index - 1
         }
+        console.log('segment 1 index: ', segment1Index)
+        console.log('segment 2 index: ', segment2Index)
 
         if(!_.some([patch1, patch2], _.isUndefined)) {
             var patch1OutlineParticles = patch1.springModel.particles.filter(p => _.get(p , 'partOf', false) === 'outline')
