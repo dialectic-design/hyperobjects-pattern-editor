@@ -27,7 +27,8 @@ function interpolationLineJsonDescription() {
         simulate: true,
         simulation: {
             position: {x: 0, y: 0, z: 0},
-            rotation: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0},
+            reversePathOverride: false
         },
         modifications: [],
         cutouts: []
@@ -66,8 +67,8 @@ function interpolationLine(jsonDescription, name) {
                 }
             } else if (c1 && c2) {
                 p.c = [
-                    self.geometries[c1].interpolate(interpolateValue),
-                    self.geometries[c2].interpolate(interpolateValue)
+                    _.cloneDeep(self.geometries[c1].interpolate(interpolateValue)),
+                    _.cloneDeep(self.geometries[c2].interpolate(interpolateValue))
                 ]
                 returnGeometries.push(new Path([
                     p,

@@ -53,7 +53,6 @@ const SimulationView = () => {
     
 
     useEffect(() => {
-        console.log(initialized, containerRef.current)
         if(initialized === false && containerRef.current !== null && windowSize().width > 0) {
             setInitialized(true)
             let shapes = _.get(modelData, '_procedures', []).filter(simulatedProcedures)
@@ -97,7 +96,6 @@ const SimulationView = () => {
         },
         particleStepSize: particleStepSize,
         updateParticleStepSize: (newStepSize) => {
-            console.log('update step size', newStepSize)
             setParticleStepSize(newStepSize);
             
             stop()

@@ -21,7 +21,8 @@ function generateGeometries(gl, scene, program, model, shapes, seams, particleSt
             type: shape.procedure.type,
             position: _.get(shape, 'simulation.position', {x: 0, y: 0, z: 0}),
             rotation: _.get(shape, 'simulation.rotation', {x: 0, y: 0, z: 0}),
-            geometries: geometries
+            geometries: geometries,
+            reversePathOverride: _.get(shape, 'simulation.reversePathOverride', false)
         }
     }).map(g => {
         // make sure each shape has only one geometry
@@ -48,7 +49,8 @@ function generateGeometries(gl, scene, program, model, shapes, seams, particleSt
                 shape.geometry,
                 shape.name,
                 orientation,
-                particleStepSize
+                particleStepSize,
+                shape.reversePathOverride
             )
         }
     })
@@ -60,8 +62,15 @@ function generateGeometries(gl, scene, program, model, shapes, seams, particleSt
         const patch2 = _.find(shapesSpringModels, shape => shape.name === seam.procedure.patch2)
         const alignment1 = _.get(seam, 'procedure.alignment1', 'start')
         const alignment2 = _.get(seam, 'procedure.alignment2', 'start')
-        const segment1Index = _.get(seam, 'procedure.segment1Index', 0)
-        const segment2Index = _.get(seam, 'procedure.segment2Index', 0)
+        var segment1Index = _.get(seam, 'procedure.segment1Index', 0)
+        if(patch1.springModel.pathIsFlipped) {
+            segment1Index = patch1.springModel.segmentCount - segment1Index - 2
+        }
+        var segment2Index = _.get(seam, 'procedure.segment2Index', 0)
+        if(patch2.springModel.pathIsFlipped) {
+            segment2Index = patch2.springModel.segmentCount - segment2Index - 2
+        }
+
         if(!_.some([patch1, patch2], _.isUndefined)) {
             var patch1OutlineParticles = patch1.springModel.particles.filter(p => _.get(p , 'partOf', false) === 'outline')
             var particlesOne = patch1OutlineParticles.filter(p => {

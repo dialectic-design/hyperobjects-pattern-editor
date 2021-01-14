@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import PositionEditor from 'components/PositionEditor'
 import { EditorContext } from 'components/PatternEditor/PatternEditor'
+import { Form, Checkbox } from 'semantic-ui-react'
 import _ from 'lodash'
 
 
@@ -12,9 +13,11 @@ const Patches3DPositionsList = () => {
             __index: i
         }
     }).filter(p => _.has(p.procedure, 'simulation') && _.get(p.procedure, 'simulate', false))
+    
     return (
         <div className='patches-3d-positions-list'>
             {proceduresWithSim.map(procedure => {
+                const description = procedure.procedure
                 return (
                     <div key={procedure.__index}>
                         <h4>{procedure.name}</h4>
@@ -32,6 +35,22 @@ const Patches3DPositionsList = () => {
                                 })
                             }}
                             />
+                        <div className='ui form'>
+                            <Form.Field>
+                                <Checkbox
+                                    checked={_.get(procedure, 'simulation.reversePathOverride', false)}
+                                    onChange={() => {
+                                        actions.updateProcedure({
+                                            ...procedure,
+                                            simulation: {
+                                                ...procedure.simulation,
+                                                reversePathOverride: !_.get(procedure, 'simulation.reversePathOverride', false)
+                                            }
+                                        })
+                                    }}
+                                    label="Reverse path override" />
+                            </Form.Field>
+                        </div>
                     </div>
                 )
             })}

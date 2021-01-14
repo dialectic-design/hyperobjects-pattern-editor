@@ -11,10 +11,17 @@ import { Path, Point } from '@dp50mm/hyperobjects-language'
 var voronoi = d3Voronoi.voronoi()
 
 
-function patchToPhysicsModel(_path, name, orientation, particleStepSize=35) {
-    var path = _path.clone()
+function patchToPhysicsModel(_path, name, orientation, particleStepSize=35, reversePathOverride=false) {
+    var path = new Path(_path.points.map(p => _.cloneDeep(p))).closed(true)
+    if(reversePathOverride) {
+        path = path.reverse()
+    }
+    var pathIsFlipped = false
     if(!path.isClockwise()) {
         path = path.reverse()
+        if(reversePathOverride === false) {
+            pathIsFlipped = true
+        }
     }
     path.closed(true)
     var pathCenter = path.center()
@@ -53,21 +60,22 @@ function patchToPhysicsModel(_path, name, orientation, particleStepSize=35) {
         })
     })
     var pathBounds = path.getBounds()
-    var boundsP1 = {
-        x: pathBounds.p1.x + particleStepSize * 1.1,
-        y: pathBounds.p1.y + particleStepSize * 1.1
-    }
-    var boundsHeight = pathBounds.height() - particleStepSize * 1.2
-    var boundsWidth = pathBounds.width() - particleStepSize * 1.2
-
+    const boundXValues = [pathBounds.p1.x, pathBounds.p2.x, pathBounds.p3.x, pathBounds.p4.x]
+    const boundYValues = [pathBounds.p1.y, pathBounds.p2.y, pathBounds.p3.y, pathBounds.p4.y]
+    
+    var boundsHeight = pathBounds.height()
+    var boundsWidth = pathBounds.width()
     var rows = Math.floor(boundsHeight / particleStepSize)
     var cols = Math.floor(boundsWidth / particleStepSize)
     var rowStepSize = boundsHeight / rows
     var colStepSize = boundsWidth / cols
-    
-    for(var row = 0; row < rows; row++) {
+    var boundsP1 = {
+        x: _.min(boundXValues) - colStepSize * 1.1,
+        y: _.min(boundYValues) - rowStepSize * 1.1
+    }
+    for(var row = 0; row < rows + 3; row++) {
         var shiftRow = (row % 2) * colStepSize * 0.5
-        for(var col = 0; col < cols; col++) {
+        for(var col = 0; col < cols + 3; col++) {
             var point = new Point({
                 x: boundsP1.x + colStepSize * col + shiftRow,
                 y: boundsP1.y + rowStepSize * row,
@@ -183,7 +191,9 @@ function patchToPhysicsModel(_path, name, orientation, particleStepSize=35) {
         outlineParticles: outlineParticles,
         triangles: triangles,
         triangleParticleIds: triangleParticleIds,
-        center: pathCenter
+        center: pathCenter,
+        segmentCount: segments.length,
+        pathIsFlipped: pathIsFlipped
     }
 
 }

@@ -22,7 +22,7 @@ function Particle(position = {x: 0, y: 0, z: 0}, mass = 0.006) {
     this.springs = []
     this.fixed = false
     this.finalForce = new Vec3(0, 0, 0)
-    this.friction = 0.01
+    this.friction = stepSize * 0.8
     this.gravityForce = function() {
         return new Vec3(0, -this.mass * 9.8, 0)
     }
