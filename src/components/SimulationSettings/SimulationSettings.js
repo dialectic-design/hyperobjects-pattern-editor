@@ -42,7 +42,7 @@ const SimulationSettings = ({
                             />
                     </Card.Content>
                     <Card.Content>
-                        <Button size='tiny' onClick={() => simulation.resetMomentum()}>
+                        <Button size='tiny' onPointerDown={() => simulation.resetMomentum()}>
                             Reset momentum
                         </Button>
                     </Card.Content>
@@ -56,7 +56,7 @@ const SimulationSettings = ({
                         <br />
                         <Button
                             active={particleStepSize !== simulation.particleStepSize}
-                            onClick={() => simulation.updateParticleStepSize(parseInt(particleStepSize))}
+                            onPointerDown={() => simulation.updateParticleStepSize(parseInt(particleStepSize))}
                             size="tiny"
                             >
                             Update step size
@@ -65,7 +65,7 @@ const SimulationSettings = ({
                         <p>Preset step sizes</p>
                         <Button.Group size='tiny' style={{width: 88}}>
                             <Button
-                                onClick={() => {
+                                onPointerDown={() => {
                                     setParticleStepSize(20)
                                     simulation.updateParticleStepSize(20)
                                 }}
@@ -73,7 +73,7 @@ const SimulationSettings = ({
                                 20
                             </Button>
                             <Button
-                                onClick={() => {
+                                onPointerDown={() => {
                                     setParticleStepSize(30)
                                     simulation.updateParticleStepSize(30)
                                 }}
@@ -81,7 +81,7 @@ const SimulationSettings = ({
                                 30
                             </Button>
                             <Button
-                                onClick={() => {
+                                onPointerDown={() => {
                                     setParticleStepSize(40)
                                     simulation.updateParticleStepSize(40)
                                 }}
@@ -95,17 +95,17 @@ const SimulationSettings = ({
                             <Button icon='backward'
                                 toggle
                                 active={simulation.animateCamera === -1}
-                                onClick={() => simulation.setAnimateCamera(-1)}
+                                onPointerDown={() => simulation.setAnimateCamera(-1)}
                                 />
                             <Button icon='pause'
                                 toggle
                                 active={simulation.animateCamera === false}
-                                onClick={() => simulation.setAnimateCamera(false)}
+                                onPointerDown={() => simulation.setAnimateCamera(false)}
                                 />
                             <Button icon='forward'
                                 toggle
                                 active={simulation.animateCamera === 1}
-                                onClick={() => simulation.setAnimateCamera(1)}
+                                onPointerDown={() => simulation.setAnimateCamera(1)}
                                 />
                         </Button.Group>
                         <br />
@@ -114,21 +114,21 @@ const SimulationSettings = ({
                             <Button
                                 toggle
                                 active={simulation.cameraAnimationSpeed === 1}
-                                onClick={() => simulation.setCameraAnimationSpeed(1)}
+                                onPointerDown={() => simulation.setCameraAnimationSpeed(1)}
                                 >
                                 1x
                             </Button>
                             <Button
                                 toggle
                                 active={simulation.cameraAnimationSpeed === 2}
-                                onClick={() => simulation.setCameraAnimationSpeed(2)}
+                                onPointerDown={() => simulation.setCameraAnimationSpeed(2)}
                                 >
                                 2x
                             </Button>
                             <Button
                                 toggle
                                 active={simulation.cameraAnimationSpeed === 3}
-                                onClick={() => simulation.setCameraAnimationSpeed(3)}
+                                onPointerDown={() => simulation.setCameraAnimationSpeed(3)}
                                 >
                                 3x
                             </Button>
