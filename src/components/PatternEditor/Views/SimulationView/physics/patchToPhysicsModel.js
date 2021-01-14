@@ -7,6 +7,7 @@ import {
 import * as d3Voronoi from 'd3-voronoi'
 import { Vec3, Mat4, Quat } from 'ogl'
 import { Path, Point } from '@dp50mm/hyperobjects-language'
+import { p } from '@dialectic-design/hyperobjects-entity-context'
 
 var voronoi = d3Voronoi.voronoi()
 
@@ -158,12 +159,17 @@ function patchToPhysicsModel(_path, name, orientation, particleStepSize=35, reve
     rotationQuat.rotateY(orientation.rotation.y / 360 * Math.PI * 2) // convert from user input in degrees 
     rotationQuat.rotateZ(orientation.rotation.z / 360 * Math.PI * 2) // convert from user input in degrees 
     // Apply rotate and translate 
-    var translateMatrix = new Mat4()
+    var translateMatrix = new Mat4() // .fromQuaternion(rotationQuat)
     translateMatrix.translate(orientation.position.vec)
+    particles.forEach(p => {
+        p.position.applyQuaternion(rotationQuat)
+    })
     
     particles.forEach(p => {
         p.position.applyMatrix4(translateMatrix)
-        p.position.applyQuaternion(rotationQuat)
+    })
+    particles.forEach(p => {
+        // p.position.applyQuaternion(rotationQuat)
     })
     // reset rest lengths after transformations
     springs.forEach(spring => {
