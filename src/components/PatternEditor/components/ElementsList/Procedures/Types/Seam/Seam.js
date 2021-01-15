@@ -122,6 +122,16 @@ const SeamProcedureEditor = ({ procedure }) => {
                         }}
                         label="flip direction" />
                 </Form.Field>
+                <Form.Field>
+                    <Checkbox
+                        checked={_.get(description, 'hideLabelsInPatternView', false)}
+                        onChange={() => {
+                            actions.updateProcedure({...procedure,
+                                procedure: {...description, hideLabelsInPatternView: !_.get(description, 'hideLabelsInPatternView', false) }
+                            })
+                        }}
+                        label="hide labels in pattern view" />
+                </Form.Field>
             </div>
         </div>
     )

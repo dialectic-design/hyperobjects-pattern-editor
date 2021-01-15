@@ -13,7 +13,8 @@ function seamJsonDescription() {
         flipDirection: false,
         alignment1: 'start',
         alignment2: 'start',
-        output_type: false
+        output_type: false,
+        hideLabelsInPatternView: false
     }
 }
 
@@ -25,6 +26,9 @@ function seam(jsonDescription, name) {
         var segment2Index = _.get(jsonDescription, 'segment2Index', false)
 
         var returnGeometries = []
+        if(_.get(jsonDescription, 'hideLabelsInPatternView', false)) {
+            return returnGeometries
+        }
         if(patch1Key) {
             if(_.isFunction(self.procedures[patch1Key])) {
                 var path = self.procedures[patch1Key](self)
