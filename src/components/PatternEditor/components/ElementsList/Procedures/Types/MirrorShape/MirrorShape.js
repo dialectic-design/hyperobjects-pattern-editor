@@ -6,6 +6,8 @@ import {
     Message
 } from 'semantic-ui-react'
 import _ from 'lodash'
+import { CompactPicker } from 'react-color'
+
 
 const MirrorShape = ({ procedure }) => {
     const { modelData, actions } = useContext(EditorContext)
@@ -50,6 +52,20 @@ const MirrorShape = ({ procedure }) => {
                         })
                     }}
                     label="simulate" />
+            </div>
+            <h4>Color</h4>
+            <div className='procedure-color-picker'>
+            <CompactPicker
+                onChangeComplete={(color) => {
+                    actions.updateProcedure({
+                        ...procedure,
+                        procedure: {
+                            ...description,
+                            color: color.hex
+                        }
+                    })
+                }}
+                />
             </div>
         </div>
     )

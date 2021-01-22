@@ -91,6 +91,7 @@
 
     .procedure-color-picker {
         > div {
+            pointer-events: initial;
             display: block !important;
             > div {
                 box-shadow: none !important;

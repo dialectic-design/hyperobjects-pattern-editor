@@ -11,6 +11,7 @@ import {
     stop,
     startSimulation,
     pauseSimulation,
+    updateBgColor,
     simulating,
     windowResize,
     updateGeometries,
@@ -40,6 +41,7 @@ const SimulationView = () => {
     const [animateCamera, setAnimateCamera] = useState(false)
     const [cameraAnimationSpeed, setCameraAnimationSpeed] = useState(1)
     const [particleStepSize, setParticleStepSize] = useState(35)
+    const [backgroundColor, setBackgroundColor] = useState('white')
     const { pattern, modelData, modelUpdateCounter, editorUIState } = useContext(EditorContext)
     
     var generatedModel = _.cloneDeep(modelData)
@@ -85,6 +87,10 @@ const SimulationView = () => {
         play: () => { setSimUpdateCounter(simUpdateCounter + 1); startSimulation() },
         pause: () => { setSimUpdateCounter(simUpdateCounter + 1); pauseSimulation() },
         resetMomentum: () => { setSimUpdateCounter(simUpdateCounter + 1); resetMomentum() },
+        setBackgroundColor: (color) => {
+            updateBgColor(color)
+            setBackgroundColor(color)
+        },
         animateCamera: animateCamera,
         setAnimateCamera: (value) => { setAnimateCamera(value); updateCameraAnimation(value * cameraAnimationSpeed); },
         cameraAnimationSpeed: cameraAnimationSpeed,

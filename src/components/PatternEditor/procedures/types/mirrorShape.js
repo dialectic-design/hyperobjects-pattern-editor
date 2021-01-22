@@ -13,7 +13,8 @@ function mirrorShapeJsonDescription() {
         },
         simulate: true,
         output_type: Path.type,
-        type: names.MIRROR_SHAPE
+        type: names.MIRROR_SHAPE,
+        color: '#DEF0F1'
     }
 }
 
@@ -39,6 +40,7 @@ function mirrorShape(jsonDescription, name) {
         } else {
             path = functionToMirror
         }
+        const color = _.get(jsonDescription, 'color', "#DEF0F1")
         var newPath = new Path(path.points.map(p => {
             return _.cloneDeep(p)
         })).scale({x: -1, y: 1}, path.center())
@@ -47,6 +49,7 @@ function mirrorShape(jsonDescription, name) {
             y: 0
         }).copyStyle(path)
         .closed(path.closedPath)
+        .fill(color)
         .setShowSegmentLengthLabels(true)
         return newPath
             

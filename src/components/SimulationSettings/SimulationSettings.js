@@ -6,6 +6,7 @@ import {
 } from 'semantic-ui-react'
 import { EditorContext } from 'components/PatternEditor/PatternEditor'
 import Draggable from 'react-draggable';
+import {CompactPicker} from 'react-color'
 import './simulation-settings.scss'
 
 const SimulationSettings = ({
@@ -133,6 +134,13 @@ const SimulationSettings = ({
                                 3x
                             </Button>
                         </Button.Group>
+                    </Card.Content>
+                    <Card.Content>
+                        <CompactPicker
+                            onChangeComplete={(color) => {
+                                simulation.setBackgroundColor(color.hex)
+                            }}
+                            />
                     </Card.Content>
                 </Card>
             </Draggable>

@@ -16,6 +16,7 @@ import generateGeometries from './generateGeometries'
 import newTriangleBuffers from './shapes/newTriangleBuffers'
 import _ from "lodash"
 import { linesToArrays } from './shapes/SeamSpringLines'
+import chroma from 'chroma-js'
 
 let size = {width: 100, height: 100}
 
@@ -50,6 +51,19 @@ var canvasCreated = false
 
 export var animating = false
 export var simulating = false
+
+export var bgColor = 'white'
+
+export function updateBgColor(newColor) {
+    bgColor = newColor
+    const rgb = chroma(bgColor)._rgb
+    gl.clearColor(
+        rgb[0]/255,
+        rgb[1]/255,
+        rgb[2]/255,
+        1
+    )
+}
 
 var physicsModel = false
 var seamSprings = false

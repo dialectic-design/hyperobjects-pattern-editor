@@ -48,6 +48,25 @@ const InterpolationLine = ({
 
             <h4>Points</h4>
             <PointsList procedure={procedure} />
+            <h4>Grainline</h4>
+            <Select
+                placeholder='select grainline path'
+                value={_.get(description, 'grainline', false)}
+                onChange={(e, data) => {
+                    actions.updateProcedure({
+                        ...procedure,
+                        procedure: {...description, grainline: data.value}
+                    })
+                }}
+                options={modelData.editableGeometriesList.map((g) => {
+                    return {
+                        key: g,
+                        value: g,
+                        text: g
+                    }
+                })}
+                />
+            <h4>Settings</h4>
             <div className='line-settings'>
             <Checkbox
                 checked={_.get(description, 'closed', false)}
@@ -78,7 +97,18 @@ const InterpolationLine = ({
             </div>
             <h4>Color</h4>
             <div className='procedure-color-picker'>
-            <CompactPicker />
+            <CompactPicker
+                color={_.get(description, 'color', 'grey')}
+                onChange={(color) => {
+                    actions.updateProcedure({
+                        ...procedure,
+                        procedure: {
+                            ...description,
+                            color: color.hex
+                        }
+                    })
+                }}
+                />
             </div>
         </div>
     )

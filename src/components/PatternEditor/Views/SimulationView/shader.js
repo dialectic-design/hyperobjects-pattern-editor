@@ -31,7 +31,7 @@ export const fragment = /* glsl */ `
     void main() {
         vec3 normal = normalize(vNormal);
         float lighting = dot(normal, normalize(vec3(0.2, 0.8, 0.6)));
-        gl_FragColor.rgb = 0.2 + vec3(vColor.r, vColor.g, vColor.b) * 0.4 + lighting * 0.3;
+        gl_FragColor.rgb = 0.1 + vec3(vColor.r, vColor.g, vColor.b) * 0.9 + lighting * 0.3;
         gl_FragColor.a = vAlpha[0];
     }
 `;

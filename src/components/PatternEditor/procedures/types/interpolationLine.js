@@ -25,13 +25,15 @@ function interpolationLineJsonDescription() {
         showName: true,
         offset: false,
         simulate: true,
+        grainline: false,
         simulation: {
             position: {x: 0, y: 0, z: 0},
             rotation: {x: 0, y: 0, z: 0},
             reversePathOverride: false
         },
         modifications: [],
-        cutouts: []
+        cutouts: [],
+        color: '#DEF0F1'
     }
 }
 
@@ -44,6 +46,7 @@ function interpolationLine(jsonDescription, name) {
         if(jsonDescription.geometries.length === 0) {
             return []
         }
+        const color = _.get(jsonDescription, 'color', "#DEF0F1")
         let path = new Path(jsonDescription.geometries.map(geometry => {
             const interpolateValue = _.get(self.inputs[jsonDescription.input], 'value', 0)
             let p = new Point(self.geometries[geometry.path].interpolate(interpolateValue))
@@ -88,10 +91,47 @@ function interpolationLine(jsonDescription, name) {
             return p
         })).closed(jsonDescription.closed)
             .strokeWidth(2)
-            .fill('#DEF0F1')
+            .fill(color)
             .fillOpacity(0.9)
             .setShowSegmentLengthLabels(true)
         
+        /**
+         * Add grainline if set
+         */
+
+        var grainlineKey = _.get(jsonDescription, 'grainline', false)
+        if(grainlineKey) {
+            var grainlinePath = _.get(self.geometries, grainlineKey, false)
+            if(grainlinePath) {
+                grainlinePath = grainlinePath.clone().strokeWidth(2).stroke('black').strokeOpacity(0.5)
+                var endArrow = new Path([
+                    {x: 0, y: 0},
+                    {x: -5, y: -10},
+                    {x: 5, y: -10}
+                    ]).fill('black').closed(true)
+                    .rotate(grainlinePath.angleAt(0.5) + Math.PI * 0.5)
+                    .translate(grainlinePath.endPoint())
+                
+                const grainlineCenter = grainlinePath.center()
+
+                var grainlineText = new Text(
+                    "grainline",
+                    {x: grainlineCenter.x + 4, y: grainlineCenter.y}
+                ).fontSize(15)
+                .fill('rgb(100,100,100)')
+                .stroke('black')
+                .strokeWidth(1)
+                .fontWeight(400)
+
+
+                returnGeometries.push(grainlinePath)
+                returnGeometries.push(endArrow)
+                returnGeometries.push(grainlineText)
+
+            }
+        }
+
+
         path.showSegmentLengthLabels = true
         if(jsonDescription.showName) {
             returnGeometries.push(new Text(

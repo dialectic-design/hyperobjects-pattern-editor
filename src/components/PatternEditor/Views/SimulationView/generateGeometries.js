@@ -19,6 +19,7 @@ function generateGeometries(gl, scene, program, model, shapes, seams, particleSt
         return {
             name: shape.name,
             type: shape.procedure.type,
+            color: _.get(shape, 'procedure.color', "rgb(80, 80, 80)"),
             position: _.get(shape, 'simulation.position', {x: 0, y: 0, z: 0}),
             rotation: _.get(shape, 'simulation.rotation', {x: 0, y: 0, z: 0}),
             geometries: geometries,

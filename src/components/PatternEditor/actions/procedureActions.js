@@ -14,6 +14,14 @@ function generateProcedureActions(modelData, setModelData, pattern, storeModelUp
             storeModelUpdate(newModelData)
 
         },
+        updateProcedures: (newProcedures) => {
+            const newModelData = {
+                ...modelData,
+                _procedures: newProcedures
+            }
+            setModelData(newModelData, false, true)
+            storeModelUpdate(newModelData)
+        },
         addProcedure: (newProcedure) => {
             const newModelData = {
                 ...modelData,
