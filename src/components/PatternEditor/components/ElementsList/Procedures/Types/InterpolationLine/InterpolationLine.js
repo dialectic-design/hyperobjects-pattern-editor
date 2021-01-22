@@ -94,6 +94,17 @@ const InterpolationLine = ({
                     </List.Item>
                     <List.Item>
                         <Checkbox
+                            checked={_.get(description, 'showSegmentLengths', true)}
+                            onChange={() => {
+                                actions.updateProcedure({
+                                    ...procedure,
+                                    procedure: {...description, showSegmentLengths: !_.get(description, 'showSegmentLengths', false)}
+                                })
+                            }}
+                            label="Show segment lengths" />
+                    </List.Item>
+                    <List.Item>
+                        <Checkbox
                             checked={_.get(description, 'strokeDasharray', false) !== false}
                             onChange={() => {
                                 var dashArray = false

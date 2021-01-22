@@ -23,6 +23,7 @@ function interpolationLineJsonDescription() {
         type: names.INTERPOLATION_LINE,
         name: 'name',
         showName: true,
+        showSegmentLengths: true,
         offset: false,
         simulate: true,
         grainline: false,
@@ -104,6 +105,7 @@ function interpolationLine(jsonDescription, name) {
         
         if(dashArray) {
             path.strokeDasharray(dashArray)
+                .strokeWidth(1)
         }
 
         /**
@@ -143,7 +145,7 @@ function interpolationLine(jsonDescription, name) {
         }
 
 
-        path.showSegmentLengthLabels = true
+        path.showSegmentLengthLabels = _.get(jsonDescription, 'showSegmentLengths', true)
         if(jsonDescription.showName) {
             returnGeometries.push(new Text(
                 name,
