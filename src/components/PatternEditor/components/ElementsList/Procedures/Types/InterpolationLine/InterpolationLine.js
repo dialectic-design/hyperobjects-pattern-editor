@@ -94,6 +94,21 @@ const InterpolationLine = ({
                     </List.Item>
                     <List.Item>
                         <Checkbox
+                            checked={_.get(description, 'strokeDasharray', false) !== false}
+                            onChange={() => {
+                                var dashArray = false
+                                if(_.get(description, 'strokeDasharray', false) === false) {
+                                    dashArray = 10
+                                }
+                                actions.updateProcedure({
+                                    ...procedure,
+                                    procedure: {...description, strokeDasharray: dashArray}
+                                })
+                            }}
+                            label="Dashed line" />
+                    </List.Item>
+                    <List.Item>
+                        <Checkbox
                             checked={_.get(description, 'simulate', false)}
                             onChange={() => {
                                 actions.updateProcedure({

@@ -31,9 +31,12 @@ function interpolationLineJsonDescription() {
             rotation: {x: 0, y: 0, z: 0},
             reversePathOverride: false
         },
+        folds: [],
         modifications: [],
         cutouts: [],
-        color: '#DEF0F1'
+        color: '#DEF0F1',
+        stroke: 'black',
+        strokeDasharray: false
     }
 }
 
@@ -47,6 +50,9 @@ function interpolationLine(jsonDescription, name) {
             return []
         }
         const color = _.get(jsonDescription, 'color', "#DEF0F1")
+        const stroke = _.get(jsonDescription, 'stroke', 'black')
+        const dashArray = _.get(jsonDescription, 'strokeDasharray', false)
+        console.log(dashArray)
         let path = new Path(jsonDescription.geometries.map(geometry => {
             const interpolateValue = _.get(self.inputs[jsonDescription.input], 'value', 0)
             let p = new Point(self.geometries[geometry.path].interpolate(interpolateValue))
@@ -92,9 +98,14 @@ function interpolationLine(jsonDescription, name) {
         })).closed(jsonDescription.closed)
             .strokeWidth(2)
             .fill(color)
+            .stroke(stroke)
             .fillOpacity(0.9)
             .setShowSegmentLengthLabels(true)
         
+        if(dashArray) {
+            path.strokeDasharray(dashArray)
+        }
+
         /**
          * Add grainline if set
          */
