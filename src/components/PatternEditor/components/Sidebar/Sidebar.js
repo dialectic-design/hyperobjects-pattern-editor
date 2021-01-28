@@ -5,10 +5,14 @@ import TabControls from './TabControls'
 import PatternViewSidebarPanel from '../../Views/PatternView/PatternViewSidebarPanel'
 import SimulationViewSidebarPanel from '../../Views/SimulationView/SimulationViewSidebarPanel'
 import SettingsViewSidebarPanel from '../../Views/SettingsView/SettingsViewSidebarPanel'
+import ConstructionViewSidebar from '../../Views/ConstructionView/ConstructionViewSidebar'
 
-import { PATTERN_TAB,
+import {
+    PATTERN_TAB,
     SIMULATION_TAB,
-    SETTINGS_TAB } from '../../constants'
+    SETTINGS_TAB,
+    CONSTRUCTION_TAB
+} from '../../constants'
 
 import "./sidebar.scss"
 
@@ -50,6 +54,9 @@ const SideBar = ({
                     )}
                     {editorUIState.selectedTab === SETTINGS_TAB && (
                         <SettingsViewSidebarPanel />
+                    )}
+                    {editorUIState.selectedTab === CONSTRUCTION_TAB && (
+                        <ConstructionViewSidebar />
                     )}
                 </div>
             </div>

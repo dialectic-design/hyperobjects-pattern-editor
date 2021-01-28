@@ -42,18 +42,19 @@ const PatternView = () => {
     const [stylingUpdated, setStylingUpdated] = useState(false)
     const [tool, setTool] = useState(tools.move)
     
-    const stylingSettings = {
-        showPointLabels
-    }
-
-    var generatedModel = resetGeometriesStyle(modelData, stylingSettings)
-    generatedModel.procedures = generateProcedures(_.get(modelData, '_procedures'), [])
-
     var model = useMemo(() => {
-        return new Model(pattern.name)
-    }, [pattern])
+        const _stylingSettings = {
+            showPointLabels
+        }
+        var generatedModel = resetGeometriesStyle(modelData, _stylingSettings)
+        generatedModel.procedures = generateProcedures(_.get(modelData, '_procedures'), [])
+
+        var _model = new Model(pattern.name)
+        _model.importModel(generatedModel)
+        return _model
+    }, [pattern, modelData, showPointLabels])
     
-    model.importModel(generatedModel)
+    
     useEffect(() => {
         const _stylingSettings = {
             showPointLabels

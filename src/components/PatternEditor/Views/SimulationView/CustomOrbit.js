@@ -238,6 +238,8 @@ export function Orbit(
                 panStart.set(e.clientX, e.clientY);
                 state = STATE.PAN;
                 break;
+            default:
+                break;
         }
 
         if (state !== STATE.NONE) {
@@ -261,6 +263,8 @@ export function Orbit(
             case STATE.PAN:
                 if (enablePan === false) return;
                 handleMovePan(e.clientX, e.clientY);
+                break;
+            default:
                 break;
         }
     };

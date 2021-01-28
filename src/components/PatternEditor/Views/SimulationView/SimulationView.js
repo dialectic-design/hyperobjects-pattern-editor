@@ -41,7 +41,6 @@ const SimulationView = () => {
     const [animateCamera, setAnimateCamera] = useState(false)
     const [cameraAnimationSpeed, setCameraAnimationSpeed] = useState(1)
     const [particleStepSize, setParticleStepSize] = useState(35)
-    const [backgroundColor, setBackgroundColor] = useState('white')
     const { pattern, modelData, modelUpdateCounter, editorUIState } = useContext(EditorContext)
     
     var generatedModel = _.cloneDeep(modelData)
@@ -68,7 +67,7 @@ const SimulationView = () => {
             updateGeometries(model, shapes, seams, particleStepSize)
         }
         
-    }, [initialized, model, currentRenderedUpdate, modelUpdateCounter, modelData])
+    }, [initialized, model, currentRenderedUpdate, modelUpdateCounter, modelData, particleStepSize])
 
     // pure dismount effect
     useEffect(() => {
@@ -89,7 +88,6 @@ const SimulationView = () => {
         resetMomentum: () => { setSimUpdateCounter(simUpdateCounter + 1); resetMomentum() },
         setBackgroundColor: (color) => {
             updateBgColor(color)
-            setBackgroundColor(color)
         },
         animateCamera: animateCamera,
         setAnimateCamera: (value) => { setAnimateCamera(value); updateCameraAnimation(value * cameraAnimationSpeed); },

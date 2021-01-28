@@ -17,7 +17,6 @@ const Patches3DPositionsList = () => {
     return (
         <div className='patches-3d-positions-list'>
             {proceduresWithSim.map(procedure => {
-                const description = procedure.procedure
                 return (
                     <div key={procedure.__index}>
                         <h4>{procedure.name}</h4>

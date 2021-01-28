@@ -5,12 +5,16 @@ import generateActions from './actions'
 import {
     PATTERN_TAB,
     SIMULATION_TAB,
-    SETTINGS_TAB
+    SETTINGS_TAB,
+    CONSTRUCTION_TAB,
+    FABRICATION_TAB
 } from './constants'
 import Sidebar from './components/Sidebar'
 import PatternView from './Views/PatternView'
 import SimulationView from './Views/SimulationView'
 import SettingsView from './Views/SettingsView'
+import ConstructionView from './Views/ConstructionView'
+import FabricationView from './Views/FabricationView'
 
 
 
@@ -82,7 +86,8 @@ const PatternEditor = ({
         setHoveredElement,
         frameFromParameters,
         editorUIState,
-        setRefreshViews
+        setRefreshViews,
+        
     }
     return (
         <EditorContext.Provider value={contextValue}>
@@ -96,6 +101,12 @@ const PatternEditor = ({
                 )}
                 {selectedTab === SETTINGS_TAB && (
                     <SettingsView />
+                )}
+                {selectedTab === CONSTRUCTION_TAB && (
+                    <ConstructionView />
+                )}
+                {selectedTab === FABRICATION_TAB && (
+                    <FabricationView />
                 )}
             </div>
         </EditorContext.Provider>

@@ -53,7 +53,6 @@ function interpolationLine(jsonDescription, name) {
         const color = _.get(jsonDescription, 'color', "#DEF0F1")
         const stroke = _.get(jsonDescription, 'stroke', 'black')
         const dashArray = _.get(jsonDescription, 'strokeDasharray', false)
-        console.log(dashArray)
         let path = new Path(jsonDescription.geometries.map(geometry => {
             const interpolateValue = _.get(self.inputs[jsonDescription.input], 'value', 0)
             let p = new Point(self.geometries[geometry.path].interpolate(interpolateValue))

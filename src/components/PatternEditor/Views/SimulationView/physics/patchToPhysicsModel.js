@@ -7,10 +7,8 @@ import {
 import * as d3Voronoi from 'd3-voronoi'
 import { Vec3, Mat4, Quat } from 'ogl'
 import { Path, Point } from '@dp50mm/hyperobjects-language'
-import { p } from '@dialectic-design/hyperobjects-entity-context'
 
 var voronoi = d3Voronoi.voronoi()
-
 
 function patchToPhysicsModel(_path, name, orientation, particleStepSize=35, reversePathOverride=false) {
     var path = new Path(_path.points.map(p => _.cloneDeep(p))).closed(true)
