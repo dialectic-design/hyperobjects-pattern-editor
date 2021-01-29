@@ -40,9 +40,14 @@ const EmbedPage = () => {
             }
             fetch(fetchUrl)
                 .then(resp => {
+                    console.log(resp)
                     if(resp.status === 200) {
                             resp.json().then(pattern => {
-                                setPatternData(pattern)
+                                setPatternData({
+                                    ...pattern,
+                                    construction: JSON.parse(_.get(pattern, 'construction', '{}')),
+                                    fabrication: JSON.parse(_.get(pattern, 'fabrication', '{}'))
+                                })
                             })
                     } else {
                         setLoadingError(true)

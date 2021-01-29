@@ -3,7 +3,9 @@ import React, { useContext, useMemo } from 'react'
 import {
     Frame,
     Group,
-    Model
+    Model,
+    Path,
+    Text
 } from '@dp50mm/hyperobjects-language'
 import { generateProcedures } from '../../procedures'
 import { resetGeometriesStyle, setSelectedStyle, setHighlightedStyle, highlightLastPoint } from '../PatternView/modelStyling'
@@ -30,15 +32,13 @@ const ConstructionView = () => {
         _model.importModel(generatedModel)
         return _model
     }, [pattern])
-    console.log(patternModel)
     const elements = patternModel.proceduresList
-    const procedureOutput = patternModel.proceduresList.map(key => {
+    const procedureOutput = elements.map(key => {
         return {
             key,
             geometries: patternModel.procedures[key](patternModel)
         }
     })
-    console.log(procedureOutput)
     var constructionModel = useMemo(() => {
         var _constructionModel = new Model(`${pattern.name}-construction`)
         _constructionModel.addEditableGeometry(
@@ -56,8 +56,14 @@ const ConstructionView = () => {
                 element.key,
                 (self) => {
                     var p = self.geometries['elements-positioning'].points[i]
-                    return element.geometries.map(g => {
-                        return g.clone().translate(p)
+                    const geometries = element.geometries
+                    const bounds = geometries.filter(g => g.type === Path.type).map(g => g.getBounds())
+                    const min = {
+                        x: _.min(bounds.map(b => b.p1.x)),
+                        y: _.min(bounds.map(b => b.p1.y))
+                    }
+                    return geometries.map(g => {
+                        return g.clone().translate({x: -min.x, y: -min.y}).translate(p)
                     })
                 }
             )
