@@ -123,7 +123,7 @@ function interpolationLine(jsonDescription, name) {
                     ]).fill('black').closed(true)
                     .rotate(grainlinePath.angleAt(0.5) + Math.PI * 0.5)
                     .translate(grainlinePath.endPoint())
-                endArrow.name = `${name}--grainline`
+                endArrow.text = `${name}--grainline`
                 const grainlineCenter = grainlinePath.center()
 
                 var grainlineText = new Text(

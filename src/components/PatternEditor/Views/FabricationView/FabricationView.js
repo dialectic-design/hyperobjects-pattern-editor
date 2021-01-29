@@ -53,19 +53,26 @@ const FabricationView = () => {
             }))
         )
         procedureOutput.forEach((element, i) => {
-            console.log(element)
             _fabricationModel.addProcedure(
                 element.key,
                 (self) => {
                     var p = self.geometries['elements-positioning'].points[i]
                     const geometries = element.geometries
+                    var seamline = _.find(geometries, (g) => _.get(g, 'text', '').endsWith('--grainline'))
+                    
+                    var rotation = 0
+                    if(!_.isUndefined(seamline)) {
+                        rotation = seamline.angleAt(0.5)
+                    }
                     const bounds = geometries.filter(g => g.type === Path.type).map(g => g.getBounds())
                     const min = {
                         x: _.min(bounds.map(b => b.p1.x)),
                         y: _.min(bounds.map(b => b.p1.y))
                     }
                     return element.geometries.map(g => {
-                        return g.clone().translate({x: -min.x, y: -min.y}).translate(p)
+                        return g.clone().translate({x: -min.x, y: -min.y})
+                            .rotate(rotation)
+                            .translate(p)
                     })
                 }
             )
