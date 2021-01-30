@@ -31,27 +31,31 @@ function mirrorShape(jsonDescription, name) {
             return []
         }
         let functionToMirror = self.procedures[jsonDescription.source.key](self)
-        var path = false
+        var paths = []
         if(_.isArray(functionToMirror)) {
             if(functionToMirror.length === 0) {
                 return []
             }
-            path = functionToMirror[0]
+            paths = functionToMirror.filter(p => p.type === Path.type)
         } else {
-            path = functionToMirror
+            paths = [functionToMirror]
         }
         const color = _.get(jsonDescription, 'color', "#DEF0F1")
-        var newPath = new Path(path.points.map(p => {
-            return _.cloneDeep(p)
-        })).scale({x: -1, y: 1}, path.center())
-        .translate({
-            x: parseFloat(_.get(jsonDescription, 'mirrorOn', '100')),
-            y: 0
-        }).copyStyle(path)
-        .closed(path.closedPath)
-        .fill(color)
-        .setShowSegmentLengthLabels(true)
-        return newPath
+        var newPaths = paths.map(path => {
+            var newPath = new Path(path.points.map(p => {
+                return _.cloneDeep(p)
+            })).scale({x: -1, y: 1}, path.center())
+            .translate({
+                x: parseFloat(_.get(jsonDescription, 'mirrorOn', '100')),
+                y: 0
+            }).copyStyle(path)
+            .closed(path.closedPath)
+            .fill(color)
+            .setShowSegmentLengthLabels(true)
+            newPath.text = `mirror-${path.text}`
+            return newPath
+        })
+        return newPaths
             
     }
 }

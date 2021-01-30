@@ -23,3 +23,7 @@ button.ui.button {
 .ui.button.toggle.active:hover {
   background-color: #A882BA !important;
 }
+
+.ui.input.italic > input {
+  font-style: italic;
+}

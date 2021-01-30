@@ -4,6 +4,7 @@ import generateGeometryActions from './geometryActions'
 import generateModelActions from './modelActions'
 import generateProcedureActions from './procedureActions'
 import generateConstructionActions from './constructionActions'
+import generateFabricationActions from './fabricationActions'
 
 import dayjs from 'dayjs'
 
@@ -45,6 +46,7 @@ function generateActions(modelData, setModelData, pattern, onChange) {
     var modelActions = generateModelActions(modelData, setModelData, pattern, storeModelUpdate, storePatternUpdate)
     var procedureActions = generateProcedureActions(modelData, setModelData, pattern, storeModelUpdate, storePatternUpdate)
     var constructionActions = generateConstructionActions(modelData, setModelData, pattern, storeModelUpdate, storePatternUpdate)
+    var fabricationActions = generateFabricationActions(modelData, setModelData, pattern, storeModelUpdate, storePatternUpdate)
 
     var actions = {
         ...inputActions,
@@ -52,7 +54,8 @@ function generateActions(modelData, setModelData, pattern, onChange) {
         ...modelActions,
         ...procedureActions, 
         ...constructionActions,
-
+        ...fabricationActions,
+        
         parseFromJson: (jsonString) => {
             setModelData(parsePatternFromJsonString(jsonString))
         },

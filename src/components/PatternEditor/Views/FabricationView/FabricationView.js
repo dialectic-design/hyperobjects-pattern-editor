@@ -9,8 +9,10 @@ import {
 } from '@dp50mm/hyperobjects-language'
 import { generateProcedures } from '../../procedures'
 import { resetGeometriesStyle, setSelectedStyle, setHighlightedStyle, highlightLastPoint } from '../PatternView/modelStyling'
-
+import FabricationSettings from './FabricationSettings'
+import './fabrication-view.scss'
 import _ from 'lodash'
+import RefreshTree from 'components/RefreshTree'
 
 export const tools = {
     move: 'move',
@@ -22,8 +24,15 @@ const stylingSettings = {
 }
 
 const FabricationView = () => {
-    const { pattern, modelData } = useContext(EditorContext)
-    const fabrication = _.get(pattern, 'fabrication', {})
+    const {
+        pattern,
+        modelData,
+        actions,
+        editorUIState,
+        refreshViews
+    } = useContext(EditorContext)
+    const fabrication = _.get(modelData, 'fabrication', {})
+
     var patternModel = useMemo(() => {
         var generatedModel = resetGeometriesStyle(modelData, stylingSettings)
         generatedModel.procedures = generateProcedures(_.get(modelData, '_procedures'), [])
@@ -31,23 +40,32 @@ const FabricationView = () => {
         var _model = new Model(pattern.name)
         _model.importModel(generatedModel)
         return _model
-    }, [pattern])
+    }, [pattern, modelData])
     const elements = patternModel.proceduresList
-    const procedureOutput = elements.map(key => {
+    const procedureOutput = elements.map((key, i) => {
+        const procedure = _.find(modelData._procedures, p => p.name === key)
+        const pos = {
+            x: _.get(procedure, 'fabricationPosition.x', 100),
+            y: _.get(procedure, 'fabricationPosition.y', 100 + i * 50)
+        }
         return {
             key,
+            position: pos,
             geometries: patternModel.procedures[key](patternModel)
         }
     })
-    console.log(procedureOutput)
     var fabricationModel = useMemo(() => {
         var _fabricationModel = new Model(`${pattern.name}-construction`)
+        _fabricationModel.setSize({
+            width: _.get(fabrication, 'size.width', 1000),
+            height: _.get(fabrication, 'size.height', 1000)
+        })
         _fabricationModel.addEditableGeometry(
             "elements-positioning",
             new Group(procedureOutput.map((element, i) => {
                 return {
-                    x: 100,
-                    y: 100 + i * 50,
+                    x: element.position.x,
+                    y: element.position.y,
                     label: element.key
                 }
             }))
@@ -71,7 +89,7 @@ const FabricationView = () => {
                     }
                     return element.geometries.map(g => {
                         return g.clone().translate({x: -min.x, y: -min.y})
-                            .rotate(rotation)
+                            .rotate(-rotation)
                             .translate(p)
                     })
                 }
@@ -79,12 +97,17 @@ const FabricationView = () => {
         })
 
         return _fabricationModel
-    })
+    }, [pattern])
     const width = _.max([window.innerWidth, 100])
     const height = window.innerHeight - 45
+
+    console.log(refreshViews)
     return (
         <div className='fabrication-view'>
-            <p>Fabrication view</p>
+            <RefreshTree refreshKey={refreshViews}>
+            {editorUIState.showSettings && (
+                <FabricationSettings model={fabricationModel} />
+            )}
             <Frame
                 width={width}
                 height={height}
@@ -94,7 +117,31 @@ const FabricationView = () => {
                 fitInContainer={true}
                 showZoomControls={true}
                 showBounds={true}
+                updateParameters={(updatedModel) => {
+                    const updatedPositions = updatedModel.geometries['elements-positioning'].points
+                    console.log(updatedPositions)
+                    actions.updateProcedures(
+                        modelData._procedures.map((procedure, i) => {
+                            var posPoint = _.find(updatedPositions, p => p.label === procedure.name)
+                            var pos = false
+                            if(posPoint !== undefined) {
+                                pos = {
+                                    x: posPoint.x,
+                                    y: posPoint.y
+                                }
+                            }
+                            if(pos) {
+                                return {
+                                    ...procedure,
+                                    fabricationPosition: pos
+                                }
+                            }
+                            return procedure
+                        })
+                    )
+                }}
                 />
+            </RefreshTree>
         </div>
     )
 }

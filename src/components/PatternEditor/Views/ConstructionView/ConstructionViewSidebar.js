@@ -21,13 +21,11 @@ const ConstructionViewSidebar = () => {
     const construction = _.get(pattern, 'construction.elements', [])
     const usedKeys = construction.map(p => p.key)
 
-    console.log(pattern, actions)
     var newUniqueKey = uuidv4().slice(0, 8)
     while (usedKeys.includes(newUniqueKey)) {
         console.log('already in use generate a new one')
         newUniqueKey = uuidv4().slice(0, 8)
     }
-    console.log(newUniqueKey)
     
     return (
         <div className='construction-view-sidebar'>
