@@ -37,7 +37,8 @@ function interpolationLineJsonDescription() {
         cutouts: [],
         color: '#DEF0F1',
         stroke: 'black',
-        strokeDasharray: false
+        strokeDasharray: false,
+        linkTo: false
     }
 }
 

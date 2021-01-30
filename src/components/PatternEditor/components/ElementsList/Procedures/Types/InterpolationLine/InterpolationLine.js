@@ -10,6 +10,7 @@ import _ from 'lodash'
 import './interpolation-line.scss'
 import PointsList from './PointsList'
 import { CompactPicker } from 'react-color'
+import { types } from 'components/PatternEditor/procedures/types'
 
 const InterpolationLine = ({
     procedure
@@ -17,6 +18,18 @@ const InterpolationLine = ({
     const { modelData, actions } = useContext(EditorContext)
     const inputs = _.keys(modelData.inputs)
     const description = procedure.procedure
+
+    const linkableTypes = [
+        types.mirrorShape.type,
+        types.interpolationLine.type
+    ]
+    const selectableLinks = modelData._procedures.filter(p => linkableTypes.includes(p.procedure.type) && p.name !== procedure.name).map(p => {
+        return {
+            key: p.name,
+            value: p.name,
+            text: p.name
+        }
+    })
     return (
         <div className='interpolation-line-editor'>
             <p className='type-label'>interpolation-line</p>
@@ -45,7 +58,6 @@ const InterpolationLine = ({
             ) : (
                 <p>Add an input to the model</p>
             )}
-            
 
             <h4>Points</h4>
             <PointsList procedure={procedure} />
@@ -66,6 +78,21 @@ const InterpolationLine = ({
                         text: g
                     }
                 })}
+                />
+            <h4>Link to shape</h4>
+            <Select
+                placeholder="select link"
+                value={_.get(description, 'linkTo', false)}
+                options={selectableLinks}
+                onChange={(e, data) => {
+                    actions.updateProcedure({
+                        ...procedure,
+                        procedure: {
+                            ...description,
+                            linkTo:  data.value
+                        }
+                    })
+                }}
                 />
             <h4>Settings</h4>
             <div className='line-settings'>

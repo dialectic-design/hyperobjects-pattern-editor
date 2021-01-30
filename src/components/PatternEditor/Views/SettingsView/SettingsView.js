@@ -14,6 +14,7 @@ import { PatternContext } from 'App'
 const SettingsView = () => {
     const editor = useContext(EditorContext)
     const patternContext = useContext(PatternContext)
+    console.log(window.location)
     return (
         <div className='settings-view'>
             <div className='ui container'>
@@ -51,6 +52,14 @@ const SettingsView = () => {
                             value={`https://pattern.hyperobjects.design/embed/?pattern=${editor.pattern._id}&mode=EDITOR`}
                             />
                     </Form.Field>
+                    {window.location.host.includes('localhost:3000') && (
+                        <Form.Field>
+                            <Input
+                                value={`http://localhost:3000/embed/?pattern=${editor.pattern._id}&mode=EDITOR`}
+                                />
+                        </Form.Field>
+                    )}
+                    
                 </div>
                 </div>
             </div>

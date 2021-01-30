@@ -5,7 +5,10 @@ import {
     Button,
     Form
 } from 'semantic-ui-react'
+import { types } from 'components/PatternEditor/procedures/types'
 import _ from 'lodash'
+
+console.log(types)
 
 const sizes = [
     10,
@@ -26,6 +29,18 @@ const ButtonProcedureEditor = ({ procedure }) => {
     const { modelData, actions } = useContext(EditorContext)
     const inputs = _.keys(modelData.inputs)
     const description = procedure.procedure
+
+    const linkableTypes = [
+        types.mirrorShape.type,
+        types.interpolationLine.type
+    ]
+    const selectableLinks = modelData._procedures.filter(p => linkableTypes.includes(p.procedure.type)).map(p => {
+        return {
+            key: p.name,
+            value: p.name,
+            text: p.name
+        }
+    })
     return (
         <div className='button-editor'>
             <p className='type-label'>button</p>
@@ -68,6 +83,23 @@ const ButtonProcedureEditor = ({ procedure }) => {
                                 text: g
                             }
                         })}
+                        />
+                </Form.Field>
+                <Form.Field>
+                    <label>Link to shape</label>
+                    <Select
+                        placeholder="select shape"
+                        value={description.linkTo}
+                        options={selectableLinks}
+                        onChange={(e, data) => {
+                            actions.updateProcedure({
+                                ...procedure,
+                                procedure: {
+                                    ...description,
+                                    linkTo:  data.value
+                                }
+                            })
+                        }}
                         />
                 </Form.Field>
                 <Form.Field>

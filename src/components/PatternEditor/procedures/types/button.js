@@ -18,7 +18,8 @@ function buttonJsonDescription() {
         showLabel: true,
         labelDirection: 'left',
         labelDistance: 100,
-        radius: 50
+        radius: 50,
+        linkTo: false
     }
 }
 

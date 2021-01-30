@@ -40,19 +40,29 @@ const ConstructionView = () => {
         _model.importModel(generatedModel)
         return _model
     }, [pattern])
-    const elements = patternModel.proceduresList
-    const procedureOutput = elements.map((key, i) => {
-        const procedure = _.find(modelData._procedures, p => p.name === key)
+    const procedures = modelData._procedures.filter(p => !_.get(p.procedure, 'linkTo', false))
+    const procedureOutput = procedures.map((procedure, i) => {
         const pos = {
             x: _.get(procedure, 'constructionPosition.x', 100),
             y: _.get(procedure, 'constructionPosition.y', 100 + i * 50)
         }
+        const linkedProcedures = modelData._procedures.filter(p => _.get(p.procedure, 'linkTo', false) === procedure.name)
+        var geometries = patternModel.procedures[procedure.name](patternModel)
+        if(!_.isArray(geometries)) {
+            geometries = [geometries]
+        }
+        linkedProcedures.forEach(linkedProcedure => {
+            geometries = geometries.concat(
+                patternModel.procedures[linkedProcedure.name](patternModel)
+            )
+        })
         return {
-            key,
+            key: procedure.name,
             position: pos,
-            geometries: patternModel.procedures[key](patternModel)
+            geometries: geometries
         }
     })
+
     var constructionModel = useMemo(() => {
         var _constructionModel = new Model(`${pattern.name}-construction`)
         _constructionModel.setSize({
@@ -108,7 +118,6 @@ const ConstructionView = () => {
                 showBounds={true}
                 updateParameters={(updatedModel) => {
                     const updatedPositions = updatedModel.geometries['elements-positioning'].points
-                    console.log(updatedPositions)
                     actions.updateProcedures(
                         modelData._procedures.map((procedure, i) => {
                             var posPoint = _.find(updatedPositions, p => p.label === procedure.name)
