@@ -43,6 +43,7 @@ function buttonGenerator(jsonDescription, name) {
                 .stroke(color)
                 .fill('white')
                 .fillOpacity(1)
+                .export(true)
             
         )
         if(jsonDescription.gender === 'female') {
@@ -53,6 +54,7 @@ function buttonGenerator(jsonDescription, name) {
                     .strokeOpacity(0)
                     .fill('white')
                     .fillOpacity(1)
+                    .export(true)
                     
             )
             
@@ -63,6 +65,7 @@ function buttonGenerator(jsonDescription, name) {
                     .strokeOpacity(0)
                     .fill(color)
                     .fillOpacity(1)
+                    .export(true)
                     
             )
         }
@@ -122,7 +125,6 @@ function buttonGenerator(jsonDescription, name) {
                 ).stroke('rgb(150, 150, 150)').strokeWidth(1)
             )
         }
-
         return returnGeometries
     }
 }
