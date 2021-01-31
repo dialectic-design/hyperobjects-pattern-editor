@@ -23,6 +23,7 @@ const PatternDisplay = ({ model }) => {
                 showGridLines={true}
                 showZoomControls={true}
                 exportControls={true}
+                exportTypes={['svg', 'png', 'pdf']}
                 />
         </div>
     )

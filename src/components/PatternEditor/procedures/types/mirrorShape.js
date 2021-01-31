@@ -1,6 +1,7 @@
 import { names } from './names'
 import _ from 'lodash'
 import { Path } from '@dp50mm/hyperobjects-language'
+import { p } from '@dialectic-design/hyperobjects-entity-context'
 function mirrorShapeJsonDescription() {
     return {
         source: false,
@@ -41,10 +42,12 @@ function mirrorShape(jsonDescription, name) {
             paths = [functionToMirror]
         }
         const color = _.get(jsonDescription, 'color', "#DEF0F1")
+        var mirrorPoint = paths[0].center()
         var newPaths = paths.map(path => {
             var newPath = new Path(path.points.map(p => {
                 return _.cloneDeep(p)
-            })).scale({x: -1, y: 1}, path.center())
+            })).scale({x: -1, y: 1}, mirrorPoint)
+            .reverse()
             .translate({
                 x: parseFloat(_.get(jsonDescription, 'mirrorOn', '100')),
                 y: 0
@@ -52,7 +55,9 @@ function mirrorShape(jsonDescription, name) {
             .closed(path.closedPath)
             .fill(color)
             .setShowSegmentLengthLabels(true)
-            newPath.text = `mirror-${path.text}`
+            .export(true)
+
+            newPath.text = `mirror-${_.get(path, 'text', '')}`
             return newPath
         })
         return newPaths

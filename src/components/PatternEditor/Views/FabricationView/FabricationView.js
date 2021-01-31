@@ -13,7 +13,7 @@ import FabricationSettings from './FabricationSettings'
 import './fabrication-view.scss'
 import _ from 'lodash'
 import RefreshTree from 'components/RefreshTree'
-
+import { types } from 'components/PatternEditor/procedures/types'
 export const tools = {
     move: 'move',
     place: 'place'
@@ -60,6 +60,7 @@ const FabricationView = () => {
         })
         return {
             key: procedure.name,
+            type: procedure.procedure.type,
             position: pos,
             geometries: geometries
         }
@@ -91,6 +92,9 @@ const FabricationView = () => {
                     var rotation = 0
                     if(!_.isUndefined(seamline)) {
                         rotation = seamline.angleAt(0.5)
+                    }
+                    if(element.type === types.mirrorShape.type) {
+                        rotation = -rotation
                     }
                     const bounds = geometries.filter(g => g.type === Path.type).map(g => g.getBounds())
                     const min = {

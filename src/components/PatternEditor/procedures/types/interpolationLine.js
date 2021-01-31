@@ -102,6 +102,7 @@ function interpolationLine(jsonDescription, name) {
             .stroke(stroke)
             .fillOpacity(0.9)
             .setShowSegmentLengthLabels(true)
+            .export(true)
         
         if(dashArray) {
             path.strokeDasharray(dashArray)
@@ -116,7 +117,12 @@ function interpolationLine(jsonDescription, name) {
         if(grainlineKey) {
             var grainlinePath = _.get(self.geometries, grainlineKey, false)
             if(grainlinePath) {
-                grainlinePath = grainlinePath.clone().strokeWidth(2).stroke('black').strokeOpacity(0.5)
+                grainlinePath = grainlinePath.clone()
+                    .strokeWidth(2)
+                    .stroke('black')
+                    .strokeOpacity(0.5)
+                    .export(true)
+
                 var endArrow = new Path([
                     {x: 0, y: 0},
                     {x: -5, y: -10},
@@ -124,6 +130,8 @@ function interpolationLine(jsonDescription, name) {
                     ]).fill('black').closed(true)
                     .rotate(grainlinePath.angleAt(0.5) + Math.PI * 0.5)
                     .translate(grainlinePath.endPoint())
+
+                    
                 endArrow.text = `${name}--grainline`
                 const grainlineCenter = grainlinePath.center()
 

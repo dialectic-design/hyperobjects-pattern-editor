@@ -86,7 +86,7 @@ const EmbedPage = () => {
                 <React.Fragment>
                     <p style={{
                         position: 'absolute',
-                        top: 5, left: 10,
+                        bottom: 5, right: 10,
                         fontSize: 10,
                         opacity: 0.5, zIndex: 2000,
                         }}>
