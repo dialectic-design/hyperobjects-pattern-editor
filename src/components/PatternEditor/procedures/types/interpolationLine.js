@@ -122,7 +122,8 @@ function interpolationLine(jsonDescription, name) {
                     .stroke('black')
                     .strokeOpacity(0.5)
                     .export(true)
-
+                    
+                grainlinePath.text = `${name}--grainline`
                 var endArrow = new Path([
                     {x: 0, y: 0},
                     {x: -5, y: -10},
@@ -132,7 +133,7 @@ function interpolationLine(jsonDescription, name) {
                     .translate(grainlinePath.endPoint())
 
                     
-                endArrow.text = `${name}--grainline`
+                endArrow.text = `${name}--grainline-arrow`
                 const grainlineCenter = grainlinePath.center()
 
                 var grainlineText = new Text(

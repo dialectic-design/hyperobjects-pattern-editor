@@ -87,15 +87,15 @@ const FabricationView = () => {
                 (self) => {
                     var p = self.geometries['elements-positioning'].points[i]
                     const geometries = element.geometries
-                    var seamline = _.find(geometries, (g) => _.get(g, 'text', '').endsWith('--grainline'))
-                    
+                    var grainline = _.find(geometries, (g) => _.get(g, 'text', '').endsWith('--grainline'))
                     var rotation = 0
-                    if(!_.isUndefined(seamline)) {
-                        rotation = seamline.angleAt(0.5)
+                    if(!_.isUndefined(grainline)) {
+                        rotation = grainline.angleAt(0.5) + Math.PI * 0.5
                     }
                     if(element.type === types.mirrorShape.type) {
-                        rotation = -rotation
+                        rotation += Math.PI
                     }
+
                     const bounds = geometries.filter(g => g.type === Path.type).map(g => g.getBounds())
                     const min = {
                         x: _.min(bounds.map(b => b.p1.x)),
