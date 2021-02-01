@@ -69,6 +69,9 @@ function buttonGenerator(jsonDescription, name) {
                     
             )
         }
+        returnGeometries.forEach(buttonCircle => {
+            buttonCircle.text = `${name}--button-outline`
+        })
 
         if(jsonDescription.showLabel) {
             var labelText = 'Button '

@@ -85,8 +85,15 @@ const FabricationView = () => {
             _fabricationModel.addProcedure(
                 element.key,
                 (self) => {
+                    const includedElements = [
+                        '--patch-outline',
+                        '--grainline',
+                        '--button-outline'
+                    ]
                     var p = self.geometries['elements-positioning'].points[i]
-                    const geometries = element.geometries
+                    var geometries = element.geometries.filter(p => {
+                        return includedElements.some(endText => _.get(p, 'text', '').endsWith(endText))
+                    })
                     var grainline = _.find(geometries, (g) => _.get(g, 'text', '').endsWith('--grainline'))
                     var rotation = 0
                     if(!_.isUndefined(grainline)) {
@@ -95,15 +102,17 @@ const FabricationView = () => {
                     if(element.type === types.mirrorShape.type) {
                         rotation += Math.PI
                     }
+                    var geometries = geometries.map(g => {
+                        return g.clone().rotate(-rotation)
+                    })
 
                     const bounds = geometries.filter(g => g.type === Path.type).map(g => g.getBounds())
                     const min = {
                         x: _.min(bounds.map(b => b.p1.x)),
                         y: _.min(bounds.map(b => b.p1.y))
                     }
-                    return element.geometries.map(g => {
-                        return g.clone().translate({x: -min.x, y: -min.y})
-                            .rotate(-rotation)
+                    return geometries.map(g => {
+                        return g.translate({x: -min.x, y: -min.y})
                             .translate(p)
                     })
                 }

@@ -1,3 +1,5 @@
+import array_move from "utils/array_move"
+
 function generateProcedureActions(modelData, setModelData, pattern, storeModelUpdate) {
     var actions = {
         updateProcedure: (updatedProcedure) => {
@@ -61,6 +63,14 @@ function generateProcedureActions(modelData, setModelData, pattern, storeModelUp
                 storeModelUpdate(newModelData)
             }
             
+        },
+        moveProcedure: (from, to) => {
+            const newModelData = {
+                ...modelData,
+                _procedures: array_move(modelData._procedures, from, to)
+            }
+            setModelData(newModelData, false, true)
+            storeModelUpdate(newModelData)
         }
     }
     return actions 

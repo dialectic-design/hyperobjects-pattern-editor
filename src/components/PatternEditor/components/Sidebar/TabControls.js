@@ -25,7 +25,7 @@ const TabControls = ({
     editorUIState
 }) => {
     return (
-        <React.Fragment>
+        <div className='tab-controls'>
             <Button.Group size='tiny' className='tab-selection'>
                 {row1.map(tab => {
                     return (
@@ -58,7 +58,7 @@ const TabControls = ({
                     )
                 })}
             </Button.Group>
-        </React.Fragment>
+        </div>
     )
 }
 

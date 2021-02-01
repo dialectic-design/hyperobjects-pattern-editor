@@ -56,6 +56,9 @@ const DraggableContent = React.memo(({
     if(hoveredElement === geometry.key) {
         classname += ' hovered'
     }
+    if(list.showEditElementPopUp === geometry.key) {
+        classname += ' editting'
+    }
     return (
         <List.Item className={classname}>
             <div className='select-div' onClick={() => {

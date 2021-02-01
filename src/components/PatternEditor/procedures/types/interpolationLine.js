@@ -104,6 +104,8 @@ function interpolationLine(jsonDescription, name) {
             .setShowSegmentLengthLabels(true)
             .export(true)
         
+        path.text = `${name}--patch-outline`
+
         if(dashArray) {
             path.strokeDasharray(dashArray)
                 .strokeWidth(1)
@@ -122,7 +124,7 @@ function interpolationLine(jsonDescription, name) {
                     .stroke('black')
                     .strokeOpacity(0.5)
                     .export(true)
-                    
+
                 grainlinePath.text = `${name}--grainline`
                 var endArrow = new Path([
                     {x: 0, y: 0},
