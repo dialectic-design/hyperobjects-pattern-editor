@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import { EditorContext } from '../../PatternEditor'
 import { Button } from 'semantic-ui-react'
 import TabControls from './TabControls'
@@ -6,6 +6,7 @@ import PatternViewSidebarPanel from '../../Views/PatternView/PatternViewSidebarP
 import SimulationViewSidebarPanel from '../../Views/SimulationView/SimulationViewSidebarPanel'
 import SettingsViewSidebarPanel from '../../Views/SettingsView/SettingsViewSidebarPanel'
 import ConstructionViewSidebar from '../../Views/ConstructionView/ConstructionViewSidebar'
+import _ from 'lodash'
 
 import {
     PATTERN_TAB,
@@ -19,6 +20,7 @@ import "./sidebar.scss"
 const SideBar = () => {
     const [showSidebar, setShowSidebar] = useState(true)
     const [mouseX, setMouseX] = useState(0)
+    const scrollContentRef = useRef(null)
     let slidePanelClass = 'slide-panel'
     if(showSidebar === false) {
         slidePanelClass += ' hidden'
@@ -32,6 +34,7 @@ const SideBar = () => {
             document.removeEventListener('mousemove', handleMouseMove)
         }
     })
+    const scrollViewHeight = _.get(scrollContentRef, 'current.clientHeight', 0)
     return (
         <div className='sidebar'>
             <Button
@@ -42,7 +45,12 @@ const SideBar = () => {
                 />
             <div className={slidePanelClass}>
                 <div className='scroll-container' style={{pointerEvents: mouseX < 330 ? 'auto' : 'none'}}>
+                    <div ref={scrollContentRef}>
                     <SidebarContent />
+                    </div>
+                    {scrollViewHeight > window.innerHeight && (
+                        <div style={{pointerEvents:'none', height: 200}} />
+                    )}
                 </div>
             </div>
         </div>
@@ -77,7 +85,6 @@ const SidebarContent = React.memo(() => {
         {editorUIState.selectedTab === CONSTRUCTION_TAB && (
             <ConstructionViewSidebar />
         )}
-        <div style={{pointerEvents:'none', height: 200}} />
         </React.Fragment>
     )
     

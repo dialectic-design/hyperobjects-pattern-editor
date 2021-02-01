@@ -84,20 +84,23 @@ const EmbedPage = () => {
             )}
             {patternData && (
                 <React.Fragment>
-                    <p style={{
-                        position: 'absolute',
-                        bottom: 5, right: 10,
-                        fontSize: 10,
-                        opacity: 0.5, zIndex: 2000,
-                        }}>
-                        <a
-                            target="_blank"
-                            rel="noreferrer"
-                            href={`https://pattern.hyperobjects.design/embed/?pattern=${patternId}&mode=${mode}`}
-                            >
-                            open full screen
-                        </a>
-                    </p>
+                    { window.location !== window.parent.location  && (
+                        <p style={{
+                            position: 'absolute',
+                            bottom: 5, right: 10,
+                            fontSize: 10,
+                            opacity: 0.5, zIndex: 2000,
+                            }}>
+                            <a
+                                target="_blank"
+                                rel="noreferrer"
+                                href={`https://pattern.hyperobjects.design/embed/?pattern=${patternId}&mode=${mode}`}
+                                >
+                                open full screen
+                            </a>
+                        </p>
+                    )}
+                    
                     <ParsedModel patternData={patternData} mode={mode} />
                 </React.Fragment>
                 
