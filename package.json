@@ -5,7 +5,7 @@
   "dependencies": {
     "@dialectic-design/hyperobjects-entity-context": "^1.0.9",
     "@dialectic-design/hyperobjects-user-context": "^1.0.14",
-    "@dp50mm/hyperobjects-language": "^1.7.47",
+    "@dp50mm/hyperobjects-language": "^1.7.49",
     "@react-hook/mouse-position": "^4.1.0",
     "@rehooks/component-size": "^1.0.3",
     "@testing-library/jest-dom": "^5.11.6",

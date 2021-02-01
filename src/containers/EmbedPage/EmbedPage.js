@@ -4,7 +4,7 @@ import parsePatternFromJsonString from 'components/PatternEditor/utils/parsePatt
 import {
     Model,
 } from '@dp50mm/hyperobjects-language'
-import Display from './Modes/Display'
+import ExpandedDisplay from './Modes/ExpandedDisplay'
 import _ from 'lodash'
 
 export const EDITOR_MODE = 'EDITOR'
@@ -101,7 +101,9 @@ const EmbedPage = () => {
                         </p>
                     )}
                     
-                    <ParsedModel patternData={patternData} mode={mode} />
+                    <ParsedModel
+                        patternData={patternData}
+                        mode={mode} />
                 </React.Fragment>
                 
             )}
@@ -124,7 +126,11 @@ const ParsedModel = ({
         <div className='parsed-model'>
             
         {mode === EDITOR_MODE && (
-            <Display model={model} />
+            <ExpandedDisplay
+                model={model}
+                pattern={patternData}
+                modelData={parsedModelData}
+                />
         )}
         </div>
     )

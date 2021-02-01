@@ -1,0 +1,16 @@
+.pattern-display-expanded {
+    .mode-selector {
+        position: absolute;
+        top: 12px;
+        left: 0px;
+        right: 0px;
+        display: flex;
+        justify-content: center;
+        color: black;
+        z-index: 100;
+        button.ui.button {
+            background: rgba(255,255,255,0.9) !important;
+            font-weight: 700;
+        }
+    }
+}
