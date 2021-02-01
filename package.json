@@ -1,6 +1,6 @@
 {
   "name": "hyperobjects-pattern-editor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@dialectic-design/hyperobjects-entity-context": "^1.0.9",
