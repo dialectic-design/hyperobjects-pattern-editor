@@ -23,6 +23,11 @@ const stylingSettings = {
     showPointLabels: false
 }
 
+const constructionProcedureTypes = [
+    types.interpolationLine.type,
+    types.mirrorShape.type
+]
+
 const FabricationView = () => {
     const {
         pattern,
@@ -43,6 +48,7 @@ const FabricationView = () => {
     }, [pattern, modelData])
 
     const procedures = modelData._procedures.filter(p => !_.get(p.procedure, 'linkTo', false))
+                            .filter(p => constructionProcedureTypes.includes(p.procedure.type))
     const procedureOutput = procedures.map((procedure, i) => {
         const pos = {
             x: _.get(procedure, 'fabricationPosition.x', 100),

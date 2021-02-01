@@ -11,6 +11,8 @@ import { generateProcedures } from '../../procedures'
 import { resetGeometriesStyle, setSelectedStyle, setHighlightedStyle, highlightLastPoint } from '../PatternView/modelStyling'
 import ConstructionSettings from './ConstructionSettings'
 import RefreshTree from 'components/RefreshTree'
+import { types } from 'components/PatternEditor/procedures/types'
+
 import _ from 'lodash'
 import './construction-view.scss'
 
@@ -22,6 +24,12 @@ export const tools = {
 const stylingSettings = {
     showPointLabels: false
 }
+
+const constructionProcedureTypes = [
+    types.interpolationLine.type,
+    types.mirrorShape.type
+]
+
 
 const ConstructionView = () => {
     const {
@@ -41,6 +49,8 @@ const ConstructionView = () => {
         return _model
     }, [pattern])
     const procedures = modelData._procedures.filter(p => !_.get(p.procedure, 'linkTo', false))
+                        .filter(p => constructionProcedureTypes.includes(p.procedure.type))
+                        
     const procedureOutput = procedures.map((procedure, i) => {
         const pos = {
             x: _.get(procedure, 'constructionPosition.x', 100),

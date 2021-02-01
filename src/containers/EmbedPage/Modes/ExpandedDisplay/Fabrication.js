@@ -12,6 +12,11 @@ const stylingSettings = {
     showPointLabels: false
 }
 
+const constructionProcedureTypes = [
+    types.interpolationLine.type,
+    types.mirrorShape.type
+]
+
 const Fabrication = ({
     model,
     pattern,
@@ -24,6 +29,8 @@ const Fabrication = ({
     const height = window.innerHeight - 3
     const fabrication = _.get(modelData, 'fabrication', {})
     const procedures = modelData._procedures.filter(p => !_.get(p.procedure, 'linkTo', false))
+                        .filter(p => constructionProcedureTypes.includes(p.procedure.type))
+
     model.inputs = inputs
     const procedureOutput = procedures.map((procedure, i) => {
         const pos = {

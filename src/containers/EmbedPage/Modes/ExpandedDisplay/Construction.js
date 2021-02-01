@@ -12,6 +12,12 @@ const stylingSettings = {
     showPointLabels: false
 }
 
+const constructionProcedureTypes = [
+    types.interpolationLine.type,
+    types.mirrorShape.type
+]
+
+
 const Construction = ({
     model,
     pattern,
@@ -20,6 +26,7 @@ const Construction = ({
     setInputs
 }) => {
     const procedures = modelData._procedures.filter(p => !_.get(p.procedure, 'linkTo', false))
+                        .filter(p => constructionProcedureTypes.includes(p.procedure.type))
     model.inputs = inputs
     const procedureOutput = procedures.map((procedure, i) => {
         const pos = {
