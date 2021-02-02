@@ -58,7 +58,6 @@ const Construction = ({
             width: _.get(construction, 'size.width', 1000),
             height: _.get(construction, 'size.height', 1000)
         })
-        console.log(_constructionModel)
         _constructionModel.addEditableGeometry(
             "elements-positioning",
             new Group(procedureOutput.map((element, i) => {
