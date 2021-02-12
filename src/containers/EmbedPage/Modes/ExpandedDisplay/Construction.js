@@ -3,14 +3,8 @@ import {
     Frame, Model, Group, Path
 } from '@dp50mm/hyperobjects-language'
 import _ from 'lodash'
-import { generateProcedures } from 'components/PatternEditor/procedures'
-import { resetGeometriesStyle } from 'components/PatternEditor/Views/PatternView/modelStyling'
 import { types } from 'components/PatternEditor/procedures/types'
 
-
-const stylingSettings = {
-    showPointLabels: false
-}
 
 const constructionProcedureTypes = [
     types.interpolationLine.type,
@@ -55,8 +49,8 @@ const Construction = ({
         _constructionModel.inputs = inputs
         _constructionModel.inputsList = model.inputsList
         _constructionModel.setSize({
-            width: _.get(construction, 'size.width', 1000),
-            height: _.get(construction, 'size.height', 1000)
+            width: _.toNumber(_.get(construction, 'size.width', 1000)),
+            height: _.toNumber(_.get(construction, 'size.height', 1000))
         })
         _constructionModel.addEditableGeometry(
             "elements-positioning",

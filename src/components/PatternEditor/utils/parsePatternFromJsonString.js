@@ -1,4 +1,5 @@
 import { Model } from '@dp50mm/hyperobjects-language'
+import _ from 'lodash'
 
 function parsePatternFromJsonString(jsonString) {
     if(jsonString === 'initialized') {
@@ -16,6 +17,14 @@ function parsePatternFromJsonString(jsonString) {
     }
     try {
         patternModel = JSON.parse(patternJsonString)
+        if(patternModel.size !== undefined) {
+            patternModel.size = {
+                width: _.toNumber(_.get(patternModel.size, 'width', 1000)),
+                height: _.toNumber(_.get(patternModel.size, 'height', 1000)),
+                depth: _.toNumber(_.get(patternModel.size, 'depth', 1000))
+            }
+        }
+        console.log(patternModel)
     } catch(error) {
         console.log(error)
     }

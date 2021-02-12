@@ -10,7 +10,7 @@ const PatternDisplay = ({ model }) => {
     const size = useComponentSize(ref)
     const width = _.max([size.width, 100])
     const height = window.innerHeight - 3
-
+    console.log(model)
     return (
         <div ref={ref} className='pattern-display'>
             <Frame

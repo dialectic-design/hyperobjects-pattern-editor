@@ -61,8 +61,8 @@ const Fabrication = ({
         _fabricationModel.inputsList = model.inputsList
 
         _fabricationModel.setSize({
-            width: _.get(fabrication, 'size.width', 1000),
-            height: _.get(fabrication, 'size.height', 1000)
+            width: _.toNumber(_.get(fabrication, 'size.width', 1000)),
+            height: _.toNumber(_.get(fabrication, 'size.height', 1000))
         })
         _fabricationModel.addEditableGeometry(
             "elements-positioning",
