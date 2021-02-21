@@ -18,11 +18,11 @@ import {
 import "./sidebar.scss"
 
 const SideBar = () => {
-    const [showSidebar, setShowSidebar] = useState(true)
+    const { editorUIState } = useContext(EditorContext)
     const [mouseX, setMouseX] = useState(0)
     const scrollContentRef = useRef(null)
     let slidePanelClass = 'slide-panel'
-    if(showSidebar === false) {
+    if(editorUIState.showSidebar === false) {
         slidePanelClass += ' hidden'
     }
     useEffect(() => {
@@ -39,9 +39,9 @@ const SideBar = () => {
         <div className='sidebar'>
             <Button
                 className='show-hide-tab'
-                icon={showSidebar ? 'arrow left' : 'arrow right'}
+                icon={editorUIState.showSidebar ? 'arrow left' : 'arrow right'}
                 size='mini'
-                onClick={() => setShowSidebar(!showSidebar)}
+                onClick={() => editorUIState.setShowSidebar(!editorUIState.showSidebar)}
                 />
             <div className={slidePanelClass}>
                 <div className='scroll-container' style={{pointerEvents: mouseX < 330 ? 'auto' : 'none'}}>

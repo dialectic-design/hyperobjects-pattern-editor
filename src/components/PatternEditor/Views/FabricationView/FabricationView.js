@@ -49,13 +49,16 @@ const FabricationView = () => {
 
     const procedures = modelData._procedures.filter(p => !_.get(p.procedure, 'linkTo', false))
                             .filter(p => constructionProcedureTypes.includes(p.procedure.type))
+
     const procedureOutput = procedures.map((procedure, i) => {
         const pos = {
             x: _.get(procedure, 'fabricationPosition.x', 100),
             y: _.get(procedure, 'fabricationPosition.y', 100 + i * 50)
         }
         const linkedProcedures = modelData._procedures.filter(p => _.get(p.procedure, 'linkTo', false) === procedure.name)
+
         var geometries = patternModel.procedures[procedure.name](patternModel)
+        
         if(!_.isArray(geometries)) {
             geometries = [geometries]
         }
@@ -72,10 +75,10 @@ const FabricationView = () => {
         }
     })
     var fabricationModel = useMemo(() => {
-        var _fabricationModel = new Model(`${pattern.name}-construction`)
+        var _fabricationModel = new Model(`${pattern.name}-fabrication`)
         _fabricationModel.setSize({
-            width: _.get(fabrication, 'size.width', 1000),
-            height: _.get(fabrication, 'size.height', 1000)
+            width: _.toNumber(_.get(fabrication, 'size.width', 1000)),
+            height: _.toNumber(_.get(fabrication, 'size.height', 1000))
         })
         _fabricationModel.addEditableGeometry(
             "elements-positioning",
@@ -120,6 +123,7 @@ const FabricationView = () => {
                     return geometries.map(g => {
                         return g.translate({x: -min.x, y: -min.y})
                             .translate(p)
+                            .fill('white').fillOpacity(0.1)
                     })
                 }
             )
@@ -145,6 +149,8 @@ const FabricationView = () => {
                 fitInContainer={true}
                 showZoomControls={true}
                 showBounds={true}
+                exportControls={!editorUIState.showSidebar}
+                exportTypes={['svg', 'png', 'pdf']}
                 updateParameters={(updatedModel) => {
                     const updatedPositions = updatedModel.geometries['elements-positioning'].points
                     actions.updateProcedures(

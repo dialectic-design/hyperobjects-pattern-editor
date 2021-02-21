@@ -62,6 +62,9 @@
             right: -3px;
             background: transparent;
         }
+        .ui.buttons {
+            width: 100%;
+        }
 
         .show-editor-button-toggle {
             width: 260px;
@@ -79,6 +82,9 @@
             pointer-events: none;
             user-select: none;
             z-index: -1;
+        }
+        .settings {
+            padding-top: 10px;
         }
     }
 

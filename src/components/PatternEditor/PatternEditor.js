@@ -28,6 +28,7 @@ const PatternEditor = ({
     const [modelUpdateCounter, setModelUpdateCounter] = useState(0)
     const [refreshViews, setRefreshViews] = useState(false)
     const [selectedTab, setSelectedTab] = useState(PATTERN_TAB)
+    const [showSidebar, setShowSidebar] = useState(true)
     const [selectedElement, setSelectedElement] = useState(false)
     const [hoveredElement, setHoveredElement] = useState(false)
     const [frameFromParameters, setFrameFromParameters] = useState(false)
@@ -72,7 +73,9 @@ const PatternEditor = ({
         selectedTab,
         setSelectedTab,
         showSettings,
-        setShowSettings
+        setShowSettings,
+        showSidebar,
+        setShowSidebar
     }
     const contextValue = {
         refreshViews,

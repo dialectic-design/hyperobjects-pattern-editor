@@ -66,8 +66,15 @@ const Construction = ({
             _constructionModel.addProcedure(
                 element.key,
                 (self) => {
+                    const includedElements = [
+                        '--patch-outline',
+                        '--grainline',
+                        '--button-outline'
+                    ]
                     var p = self.geometries['elements-positioning'].points[i]
-                    const geometries = element.geometries
+                    const geometries = element.geometries.filter(p => {
+                        return includedElements.some(endText => _.get(p, 'text', '').endsWith(endText))
+                    })
                     const bounds = geometries.filter(g => g.type === Path.type).map(g => g.getBounds())
                     const min = {
                         x: _.min(bounds.map(b => b.p1.x)),

@@ -1,11 +1,26 @@
 import { names } from './names'
 import _ from 'lodash'
 import { Path } from '@dp50mm/hyperobjects-language'
-import { p } from '@dialectic-design/hyperobjects-entity-context'
+
+const mirrorPointModelCenter = 'model-center'
+const mirrorPointShapeCenter = 'shape-center'
+export const mirrorPointSelectedPoint = 'selected-point'
+
+export const mirrorPointTypes = [
+    mirrorPointModelCenter,
+    mirrorPointShapeCenter,
+    mirrorPointSelectedPoint
+]
+
+export const mirrorAxes = {
+    x: "x",
+    y: 'y'
+}
+
 function mirrorShapeJsonDescription() {
     return {
         source: false,
-        mirrorAxis: 'x',
+        mirrorAxis: mirrorAxes.x,
         mirrorOn: 500,
         transforms: [],
         simulation: {
@@ -15,6 +30,9 @@ function mirrorShapeJsonDescription() {
         simulate: true,
         output_type: Path.type,
         type: names.MIRROR_SHAPE,
+        mirrorPointType: mirrorPointModelCenter,
+        mirrorPoint: false,
+        alignment: 'left', // alignment when mirror point type is selected point
         color: '#DEF0F1'
     }
 }
@@ -32,6 +50,11 @@ function mirrorShape(jsonDescription, name) {
             return []
         }
         let functionToMirror = self.procedures[jsonDescription.source.key](self)
+        const includedElements = [
+            '--patch-outline',
+            '--grainline',
+            '--button-outline'
+        ]
         var paths = []
         if(_.isArray(functionToMirror)) {
             if(functionToMirror.length === 0) {
@@ -41,11 +64,20 @@ function mirrorShape(jsonDescription, name) {
         } else {
             paths = [functionToMirror]
         }
+        paths = paths.filter(p => {
+            return includedElements.some(endText => _.get(p, 'text', '').endsWith(endText))
+        })
         const color = _.get(jsonDescription, 'color', "#DEF0F1")
+        
         var mirrorPoint = paths[0].center()
         var newPaths = paths.map(path => {
             var newPath = new Path(path.points.map(p => {
-                return _.cloneDeep(p)
+                return {
+                    x: _.get(p, 'x', 0),
+                    y: _.get(p, 'y', 0),
+                    c: _.get(p, 'c', false),
+                    q: _.get(p, 'q', false)
+                }
             })).scale({x: -1, y: 1}, mirrorPoint)
             .reverse()
             .translate({
@@ -54,7 +86,7 @@ function mirrorShape(jsonDescription, name) {
             }).copyStyle(path)
             .closed(path.closedPath)
             .fill(color)
-            .setShowSegmentLengthLabels(true)
+            .setShowSegmentLengthLabels(path.showSegmentLengthLabels)
             .export(true)
 
             newPath.text = `mirror-${_.get(path, 'text', '')}`

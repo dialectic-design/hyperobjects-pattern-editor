@@ -134,6 +134,8 @@ const PatternView = () => {
                 fitInContainer={true}
                 showZoomControls={true}
                 showBounds={true}
+                exportControls={!editorUIState.showSidebar}
+                exportTypes={['svg', 'png', 'pdf']}
                 fromParameters={updateFromParameters}
                 modelHasUpdated={updateFromParameters}
                 updateParameters={(updatedModel) => {

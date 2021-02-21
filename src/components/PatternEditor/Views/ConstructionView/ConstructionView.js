@@ -1,5 +1,5 @@
 import { EditorContext } from 'components/PatternEditor/PatternEditor'
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import {
     Frame,
     Group,
@@ -48,6 +48,7 @@ const ConstructionView = () => {
         _model.importModel(generatedModel)
         return _model
     }, [pattern])
+
     const procedures = modelData._procedures.filter(p => !_.get(p.procedure, 'linkTo', false))
                         .filter(p => constructionProcedureTypes.includes(p.procedure.type))
                         
@@ -56,8 +57,11 @@ const ConstructionView = () => {
             x: _.get(procedure, 'constructionPosition.x', 100),
             y: _.get(procedure, 'constructionPosition.y', 100 + i * 50)
         }
+
         const linkedProcedures = modelData._procedures.filter(p => _.get(p.procedure, 'linkTo', false) === procedure.name)
+
         var geometries = patternModel.procedures[procedure.name](patternModel)
+
         if(!_.isArray(geometries)) {
             geometries = [geometries]
         }
@@ -68,47 +72,58 @@ const ConstructionView = () => {
         })
         return {
             key: procedure.name,
+            type: procedure.procedure.type,
             position: pos,
             geometries: geometries
         }
     })
 
-    var constructionModel = useMemo(() => {
-        var _constructionModel = new Model(`${pattern.name}-construction`)
-        _constructionModel.setSize({
-            width: _.get(construction, 'size.width', 1000),
-            height: _.get(construction, 'size.height', 1000)
-        })
-        _constructionModel.addEditableGeometry(
-            "elements-positioning",
-            new Group(procedureOutput.map((element, i) => {
-                return {
-                    x: element.position.x,
-                    y: element.position.y,
-                    label: element.key
-                }
-            }))
-        )
-        procedureOutput.forEach((element, i) => {
-            _constructionModel.addProcedure(
-                element.key,
-                (self) => {
-                    var p = self.geometries['elements-positioning'].points[i]
-                    const geometries = element.geometries
-                    const bounds = geometries.filter(g => g.type === Path.type).map(g => g.getBounds())
-                    const min = {
-                        x: _.min(bounds.map(b => b.p1.x)),
-                        y: _.min(bounds.map(b => b.p1.y))
-                    }
-                    return geometries.map(g => {
-                        return g.clone().translate({x: -min.x, y: -min.y}).translate(p)
-                    })
-                }
-            )
-        })
-
-        return _constructionModel
+    var constructionModel = new Model(`${pattern.name}-construction`)
+    constructionModel.inputs = patternModel.inputs
+    constructionModel.inputsList = patternModel.inputsList
+    constructionModel.setSize({
+        width: _.toNumber(_.get(construction, 'size.width', 1000)),
+        height: _.toNumber(_.get(construction, 'size.height', 1000))
     })
+    constructionModel.addEditableGeometry(
+        "elements-positioning",
+        new Group(procedureOutput.map((element, i) => {
+            return {
+                x: element.position.x,
+                y: element.position.y,
+                label: element.key
+            }
+        }))
+    )
+    constructionModel.params = {}
+    constructionModel.params.procedureOutput = procedureOutput
+    procedureOutput.forEach((element, i) => {
+        constructionModel.addProcedure(
+            element.key,
+            (self) => {
+                console.log(self.params.procedureOutput)
+                const includedElements = [
+                    '--patch-outline',
+                    '--grainline',
+                    '--button-outline'
+                ]
+
+                var p = self.geometries['elements-positioning'].points[i]
+                const geometries = self.params.procedureOutput[i].geometries.filter(p => {
+                    return includedElements.some(endText => _.get(p, 'text', '').endsWith(endText))
+                })
+                const bounds = geometries.filter(g => g.type === Path.type).map(g => g.getBounds())
+                const min = {
+                    x: _.min(bounds.map(b => b.p1.x)),
+                    y: _.min(bounds.map(b => b.p1.y))
+                }
+                return geometries.map(g => {
+                    return g.clone().translate({x: -min.x, y: -min.y}).translate(p)
+                })
+            }
+        )
+    })
+
     const width = _.max([window.innerWidth, 100])
     const height = window.innerHeight - 45
     return (
@@ -126,6 +141,8 @@ const ConstructionView = () => {
                 fitInContainer={true}
                 showZoomControls={true}
                 showBounds={true}
+                exportControls={!editorUIState.showSidebar}
+                exportTypes={['svg', 'png', 'pdf']}
                 updateParameters={(updatedModel) => {
                     const updatedPositions = updatedModel.geometries['elements-positioning'].points
                     actions.updateProcedures(

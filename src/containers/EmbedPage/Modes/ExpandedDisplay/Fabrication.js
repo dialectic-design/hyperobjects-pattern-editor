@@ -107,6 +107,7 @@ const Fabrication = ({
                     return geometries.map(g => {
                         return g.translate({x: -min.x, y: -min.y})
                             .translate(p)
+                            .fill('white').fillOpacity(0.1)
                     })
                 }
             )
