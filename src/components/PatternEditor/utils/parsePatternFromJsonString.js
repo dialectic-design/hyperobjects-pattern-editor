@@ -4,7 +4,6 @@ import _ from 'lodash'
 function parsePatternFromJsonString(jsonString) {
     if(jsonString === 'initialized') {
         var newModelTemplate = new Model().extractModel()
-        console.log(newModelTemplate)
         newModelTemplate._procedures = []
         return newModelTemplate
     }
@@ -24,7 +23,6 @@ function parsePatternFromJsonString(jsonString) {
                 depth: _.toNumber(_.get(patternModel.size, 'depth', 1000))
             }
         }
-        console.log(patternModel)
     } catch(error) {
         console.log(error)
     }

@@ -43,6 +43,8 @@ const EmbedPage = () => {
                     console.log(resp)
                     if(resp.status === 200) {
                             resp.json().then(pattern => {
+                                console.log(pattern)
+                                document.title = _.get(pattern, 'name', 'pattern sharing view')
                                 setPatternData({
                                     ...pattern,
                                     construction: JSON.parse(_.get(pattern, 'construction', '{}')),
