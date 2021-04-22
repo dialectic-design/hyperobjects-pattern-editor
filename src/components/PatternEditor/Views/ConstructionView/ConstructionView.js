@@ -101,7 +101,6 @@ const ConstructionView = () => {
         constructionModel.addProcedure(
             element.key,
             (self) => {
-                console.log(self.params.procedureOutput)
                 const includedElements = [
                     '--patch-outline',
                     '--grainline',
